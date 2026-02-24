@@ -37,6 +37,24 @@ body {
   align-items: flex-end;
 }
 
+.bottom-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#present {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+#present.is-ready {
+  opacity: 1;
+}
+
 nav {
   display: flex;
   gap: 2rem;
