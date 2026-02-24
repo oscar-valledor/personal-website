@@ -20,7 +20,15 @@
       </div>
 
       <div class="bottom">
-        <span>© 2026</span>
+        <div class="bottom-left">
+          <div id="location-info">
+            <span id="location-city"></span>
+            <span id="location-coords"></span>
+            <span id="location-time"></span>
+            <span id="location-temp"></span>
+          </div>
+          <span>© 2026</span>
+        </div>
         <nav>
           <a href="https://instagram.com/oscarvalledor" target="_blank">Instagram</a>
           <a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank">LinkedIn</a>
@@ -29,6 +37,52 @@
       </div>
 
     </div>
+
+    <script>
+      // Live clock
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('location-time').textContent = h + ':' + m + ':' + s;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // Geolocation + weather
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var lat = position.coords.latitude;
+          var lon = position.coords.longitude;
+
+          var latDir = lat >= 0 ? 'N' : 'S';
+          var lonDir = lon >= 0 ? 'E' : 'W';
+          document.getElementById('location-coords').textContent =
+            Math.abs(lat).toFixed(4) + '° ' + latDir + ', ' + Math.abs(lon).toFixed(4) + '° ' + lonDir;
+
+          // City name via Nominatim
+          fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              var city = data.address.city || data.address.town || data.address.village || data.address.county || '';
+              var country = data.address.country_code ? data.address.country_code.toUpperCase() : '';
+              document.getElementById('location-city').textContent = city && country ? city + ', ' + country : city || country;
+            })
+            .catch(function() {});
+
+          // Temperature via Open-Meteo
+          fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              document.getElementById('location-temp').textContent = data.current_weather.temperature + '°C';
+            })
+            .catch(function() {});
+        }, function() {
+          document.getElementById('location-city').textContent = 'Location unavailable';
+        });
+      }
+    </script>
 
   </body>
 </html>
