@@ -127,18 +127,18 @@ async function initPresent() {
 
   elCity.textContent = city.status === 'fulfilled' ? city.value : 'Unknown Location';
 
-  if (weather.status === 'fulfilled') {
-    const { temp, humidity, uv, description } = weather.value;
-    elWeather.textContent = `${temp}°C  ·  ${humidity}%  ·  UV ${uv}  ·  ${description}`;
-  }
-  elMoon.textContent = calcMoonPhase();
+  // if (weather.status === 'fulfilled') {
+  //   const { temp, humidity, uv, description } = weather.value;
+  //   elWeather.textContent = `${temp}°C  ·  ${humidity}%  ·  UV ${uv}  ·  ${description}`;
+  // }
+  // elMoon.textContent = calcMoonPhase();
 
   container.classList.add('is-ready');
 
   setInterval(async () => {
     try {
       const w = await getWeather(lat, lon);
-      elWeather.textContent = `${w.temp}°C  ·  ${w.humidity}%  ·  UV ${w.uv}  ·  ${w.description}`;
+      // elWeather.textContent = `${w.temp}°C  ·  ${w.humidity}%  ·  UV ${w.uv}  ·  ${w.description}`;
     } catch {}
   }, 600_000);
 }
