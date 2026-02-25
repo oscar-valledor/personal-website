@@ -6,7 +6,10 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
+}
+
+@media (min-width: 601px) {
+  html, body { overflow: hidden; }
 }
 
 body {
@@ -20,7 +23,9 @@ body {
 }
 
 .page {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
   padding: 5vw;
   display: flex;
   flex-direction: column;
@@ -119,4 +124,38 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .bottom nav {
+    order: -1;
+  }
+
+  .bottom-left {
+    flex-direction: column-reverse;
+  }
+
+  nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  #present {
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+
+  .books-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
 }
