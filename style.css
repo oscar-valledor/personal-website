@@ -78,6 +78,19 @@ a:hover {
   opacity: 0.35;
 }
 
+/* Quote */
+
+#quote {
+  margin-top: 2rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  font-style: italic;
+}
+
+#quote.is-ready {
+  opacity: 1;
+}
+
 /* Books view */
 
 .page {

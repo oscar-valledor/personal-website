@@ -17,6 +17,7 @@
       <div class="middle">
         <p>Strategy, Product, Brand.<br>
         Co-Founder of Project Lobster (acquired by Ace &amp; Tate).</p>
+        <p id="quote" aria-live="polite"></p>
       </div>
 
       <div class="bottom">
@@ -51,6 +52,20 @@
     </div>
 
   <script src="present.js"></script>
+  <script>
+    (async function () {
+      try {
+        const res = await fetch('quotes.json');
+        const data = await res.json();
+        if (data.quotes && data.quotes.length) {
+          const q = data.quotes[Math.floor(Math.random() * data.quotes.length)];
+          const el = document.getElementById('quote');
+          el.textContent = q.text;
+          el.classList.add('is-ready');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <script>
     const booksLink = document.getElementById('books-link');
     const booksClose = document.getElementById('books-close');
