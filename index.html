@@ -3,7 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Oscar Valledor</title>
+    <title>Architect of Ideas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <meta property="og:title" content="Architect of Ideas" />
+    <meta property="og:description" content="Strategy, Product, Brand." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://oscar-valledor.github.io/personal-website/" />
+    <meta property="og:image" content="https://oscar-valledor.github.io/personal-website/og-image.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Architect of Ideas" />
+    <meta name="twitter:description" content="Strategy, Product, Brand." />
+    <meta name="twitter:image" content="https://oscar-valledor.github.io/personal-website/og-image.svg" />
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -15,15 +27,14 @@
       </div>
 
       <div class="middle">
-        <p>Strategy, Product, Brand.<br>
-        Co-Founder of Project Lobster (acquired by Ace &amp; Tate).</p>
+        <p>Strategy, Product, Brand.</p>
       </div>
 
       <div class="bottom">
         <div class="bottom-left">
           <p id="quote" aria-live="polite"></p>
           <div class="bottom-meta">
-            <span>© 2026</span>
+            <a href="#" data-view="colophon" class="copyright">© 2026</a>
             <div id="present" aria-live="polite">
               <span id="present-city"></span>
               <span id="present-coords"></span>
@@ -34,20 +45,98 @@
           </div>
         </div>
         <nav>
-          <a href="https://instagram.com/oscarvalledor" target="_blank">Instagram</a>
-          <a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank">LinkedIn</a>
-          <a href="mailto:ovalledor@gmail.com">Email</a>
-          <a href="#" id="books-link">Books</a>
+          <a href="#" data-view="now">Now</a>
+          <a href="#" data-view="essays">Essays</a>
+          <a href="#" data-view="projects">Projects</a>
+          <a href="#" data-view="books">Books</a>
+          <a href="#" data-view="contact">Contact</a>
         </nav>
       </div>
 
-      <div id="books-view">
-        <div class="books-list"></div>
-        <div class="books-footer">
+      <!-- Books -->
+      <div id="books-view" class="overlay-view">
+        <div class="view-list"></div>
+        <div class="view-footer">
+          <span id="books-count"></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div id="projects-view" class="overlay-view">
+        <div class="view-list"></div>
+        <div class="view-footer">
           <span></span>
-          <nav>
-            <a href="#" id="books-close">Close</a>
-          </nav>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Writing -->
+      <div id="essays-view" class="overlay-view">
+        <div class="view-list"></div>
+        <div class="view-footer">
+          <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div id="contact-view" class="overlay-view">
+        <div class="view-list">
+          <p><a href="https://instagram.com/oscarvalledor" target="_blank">Instagram</a></p>
+          <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank">LinkedIn</a></p>
+          <p><a href="mailto:ovalledor@gmail.com">Email</a></p>
+        </div>
+        <div class="view-footer">
+          <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Shortcuts -->
+      <div id="shortcuts-view" class="overlay-view">
+        <div class="view-list">
+          <p><span class="shortcut-key">N</span><span class="view-meta"> — Now</span></p>
+          <p><span class="shortcut-key">E</span><span class="view-meta"> — Essays</span></p>
+          <p><span class="shortcut-key">P</span><span class="view-meta"> — Projects</span></p>
+          <p><span class="shortcut-key">B</span><span class="view-meta"> — Books</span></p>
+          <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
+          <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
+          <p><span class="shortcut-key">Esc</span><span class="view-meta"> — Close</span></p>
+        </div>
+        <div class="view-footer">
+          <span>Keyboard shortcuts</span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Colophon -->
+      <div id="colophon-view" class="overlay-view">
+        <div class="view-list">
+          <p>Built with HTML, CSS, and vanilla JavaScript.</p>
+          <p>Typeset in Times New Roman.</p>
+          <p>Hosted on GitHub Pages.</p>
+          <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank">Brain Food</a>.</p>
+          <p>Adapts to your system's colour preference.</p>
+          <p>Press <em>?</em> for keyboard shortcuts.</p>
+        </div>
+        <div class="view-footer">
+          <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Now -->
+      <div id="now-view" class="overlay-view" data-updated="2026-02-25">
+        <div class="view-list">
+          <p>Based in Barcelona.<br>
+          Currently working at Ace &amp; Tate.<br>
+          Interested in consumer, artificial intelligence &amp; health.</p>
+          <p>Exploratory phase.</p>
+        </div>
+        <div class="view-footer">
+          <span id="now-updated"></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
         </div>
       </div>
 
@@ -55,6 +144,12 @@
 
   <script src="present.js"></script>
   <script>
+    const page = document.querySelector('.page');
+
+    // — Page fade-in —
+    setTimeout(function() { page.classList.add('is-ready'); }, 100);
+
+    // — Quote —
     (async function () {
       try {
         const res = await fetch('quotes.json');
@@ -63,17 +158,54 @@
           const q = data.quotes[Math.floor(Math.random() * data.quotes.length)];
           const el = document.getElementById('quote');
           el.textContent = q.text;
+          el.title = q.edition;
           el.classList.add('is-ready');
         }
       } catch (e) {}
     })();
-  </script>
-  <script>
-    const booksLink = document.getElementById('books-link');
-    const booksClose = document.getElementById('books-close');
-    const page = document.querySelector('.page');
-    const booksList = document.querySelector('.books-list');
 
+    // — View system —
+    function openView(name) {
+      page.dataset.view = name;
+      loadView(name);
+    }
+
+    function closeView() {
+      delete page.dataset.view;
+    }
+
+    document.querySelectorAll('[data-view]').forEach(el => {
+      if (el.tagName === 'A') {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          openView(this.dataset.view);
+        });
+      }
+    });
+
+    document.querySelectorAll('.view-close').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeView();
+      });
+    });
+
+    // — Keyboard shortcuts —
+    document.addEventListener('keydown', function(e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'Escape') { closeView(); return; }
+      if (e.key === '?') {
+        page.dataset.view === 'shortcuts' ? closeView() : openView('shortcuts');
+        return;
+      }
+      if (page.dataset.view) return;
+      const shortcuts = { b: 'books', n: 'now', e: 'essays', p: 'projects', c: 'contact' };
+      const view = shortcuts[e.key.toLowerCase()];
+      if (view) openView(view);
+    });
+
+    // — Books —
     let booksData = null;
 
     async function loadBooks() {
@@ -84,25 +216,22 @@
     }
 
     function renderBooks(data) {
-      booksList.innerHTML = '';
+      const list = document.querySelector('#books-view .view-list');
+      list.innerHTML = '';
 
       const sections = [
         { label: 'Currently reading', items: data.currentlyReading },
         { label: null, items: data.read },
       ];
 
-      let first = true;
       for (const section of sections) {
         if (!section.items.length) continue;
-
         if (section.label) {
           const label = document.createElement('p');
-          label.className = 'books-label';
+          label.className = 'view-label';
           label.textContent = section.label;
-          booksList.appendChild(label);
-          first = false;
+          list.appendChild(label);
         }
-
         for (const book of section.items) {
           const p = document.createElement('p');
           const a = document.createElement('a');
@@ -110,22 +239,103 @@
           a.target = '_blank';
           a.textContent = `${book.title} — ${book.author}`;
           p.appendChild(a);
-          booksList.appendChild(p);
+          list.appendChild(p);
         }
+      }
+
+      const count = data.read.length;
+      document.getElementById('books-count').textContent = count;
+    }
+
+    // — Projects —
+    let projectsData = null;
+
+    async function loadProjects() {
+      if (projectsData) return projectsData;
+      const res = await fetch('projects.json');
+      projectsData = await res.json();
+      return projectsData;
+    }
+
+    function renderProjects(data) {
+      const list = document.querySelector('#projects-view .view-list');
+      list.innerHTML = '';
+      for (const project of data.projects) {
+        const p = document.createElement('p');
+
+        if (project.url) {
+          const a = document.createElement('a');
+          a.href = project.url;
+          a.target = '_blank';
+          a.textContent = project.title;
+          p.appendChild(a);
+        } else {
+          p.appendChild(document.createTextNode(project.title));
+        }
+
+        if (project.status) {
+          const span = document.createElement('span');
+          span.className = 'view-meta';
+          span.textContent = ` — ${project.status}`;
+          p.appendChild(span);
+        }
+
+        list.appendChild(p);
       }
     }
 
-    booksLink.addEventListener('click', async function(e) {
-      e.preventDefault();
-      page.classList.add('books-active');
-      const data = await loadBooks();
-      renderBooks(data);
-    });
+    // — Writing —
+    let essaysData = null;
 
-    booksClose.addEventListener('click', function(e) {
-      e.preventDefault();
-      page.classList.remove('books-active');
-    });
+    async function loadEssays() {
+      if (essaysData) return essaysData;
+      const res = await fetch('essays.json');
+      essaysData = await res.json();
+      return essaysData;
+    }
+
+    function renderEssays(data) {
+      const list = document.querySelector('#essays-view .view-list');
+      list.innerHTML = '';
+      if (!data.posts.length) {
+        const p = document.createElement('p');
+        p.className = 'view-meta';
+        p.textContent = 'Nothing published yet.';
+        list.appendChild(p);
+        return;
+      }
+      for (const post of data.posts) {
+        const p = document.createElement('p');
+        if (post.url) {
+          const a = document.createElement('a');
+          a.href = post.url;
+          a.textContent = post.title;
+          p.appendChild(a);
+        } else {
+          p.appendChild(document.createTextNode(post.title));
+        }
+        if (post.date) {
+          const meta = document.createElement('span');
+          meta.className = 'view-meta';
+          meta.textContent = ` — ${post.date}`;
+          p.appendChild(meta);
+        }
+        list.appendChild(p);
+      }
+    }
+
+    // — Now —
+    (function () {
+      const d = new Date(document.getElementById('now-view').dataset.updated);
+      const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      document.getElementById('now-updated').textContent = `Last updated ${label}`;
+    })();
+
+    async function loadView(name) {
+      if (name === 'books') renderBooks(await loadBooks());
+      if (name === 'projects') renderProjects(await loadProjects());
+      if (name === 'essays') renderEssays(await loadEssays());
+    }
   </script>
   </body>
 </html>

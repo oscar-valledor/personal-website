@@ -1,0 +1,18 @@
+{
+  "projects": [
+    {
+      "title": "Project Lobster",
+      "role": "co-founder",
+      "description": "contemporary visioncare",
+      "status": "acquired by Ace & Tate",
+      "url": "https://projectlobster.com/"
+    },
+    {
+      "title": "Querida",
+      "role": "undefined",
+      "description": "creative services",
+      "status": "under development",
+      "url": "https://querida.si/"
+    }
+  ]
+}
