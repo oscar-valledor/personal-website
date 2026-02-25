@@ -12,7 +12,8 @@
       "role": "undefined",
       "description": "creative services",
       "status": "under development",
-      "url": "https://querida.si/"
+      "url": "https://querida.si/",
+      "hidden": true
     }
   ]
 }

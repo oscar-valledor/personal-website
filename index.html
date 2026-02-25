@@ -261,7 +261,7 @@
     function renderProjects(data) {
       const list = document.querySelector('#projects-view .view-list');
       list.innerHTML = '';
-      for (const project of data.projects) {
+      for (const project of data.projects.filter(p => !p.hidden)) {
         const p = document.createElement('p');
 
         if (project.url) {
