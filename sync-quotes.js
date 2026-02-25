@@ -162,10 +162,15 @@ async function main() {
   }
 
   const allQuotes = [...existing.quotes, ...newQuotes];
-  const allDates = allQuotes.map(q => q.date).filter(Boolean).sort();
-  const latestDate = allDates.length ? allDates[allDates.length - 1] : existing.lastUpdated;
 
-  const output = { lastUpdated: latestDate, quotes: allQuotes };
+  // Keep only quotes from the 12 most recent editions
+  const uniqueDates = [...new Set(allQuotes.map(q => q.date))].sort();
+  const recentDates = new Set(uniqueDates.slice(-12));
+  const trimmedQuotes = allQuotes.filter(q => recentDates.has(q.date));
+
+  const latestDate = uniqueDates.length ? uniqueDates[uniqueDates.length - 1] : existing.lastUpdated;
+
+  const output = { lastUpdated: latestDate, quotes: trimmedQuotes };
   fs.writeFileSync(quotesFile, JSON.stringify(output, null, 2));
   console.log(`Done. ${newQuotes.length} new quotes added. Total: ${allQuotes.length}.`);
 }

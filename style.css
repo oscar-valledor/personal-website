@@ -49,6 +49,13 @@ body {
   gap: 0.5rem;
 }
 
+.bottom-meta {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: baseline;
+}
+
 #present {
   display: flex;
   flex-direction: row;
@@ -81,7 +88,7 @@ a:hover {
 /* Quote */
 
 #quote {
-  margin-top: 2rem;
+  max-width: 45vw;
   opacity: 0;
   transition: opacity 0.4s ease;
   font-style: italic;
