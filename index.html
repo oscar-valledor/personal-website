@@ -9,12 +9,12 @@
     <meta property="og:title" content="Architect of Ideas" />
     <meta property="og:description" content="Strategy, Product, Brand." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://oscar-valledor.github.io/personal-website/" />
-    <meta property="og:image" content="https://oscar-valledor.github.io/personal-website/og-image.svg" />
+    <meta property="og:url" content="https://oscarvalledor.com" />
+    <meta property="og:image" content="https://oscarvalledor.com/og-image.svg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Architect of Ideas" />
     <meta name="twitter:description" content="Strategy, Product, Brand." />
-    <meta name="twitter:image" content="https://oscar-valledor.github.io/personal-website/og-image.svg" />
+    <meta name="twitter:image" content="https://oscarvalledor.com/og-image.svg" />
 
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -83,8 +83,8 @@
       <!-- Contact -->
       <div id="contact-view" class="overlay-view">
         <div class="view-list">
-          <p><a href="https://instagram.com/oscarvalledor" target="_blank">Instagram</a></p>
-          <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank">LinkedIn</a></p>
+          <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a></p>
+          <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
           <p><a href="mailto:ovalledor@gmail.com">Email</a></p>
         </div>
         <div class="view-footer">
@@ -116,7 +116,7 @@
           <p>Built with HTML, CSS, and vanilla JavaScript.</p>
           <p>Typeset in Times New Roman.</p>
           <p>Hosted on GitHub Pages.</p>
-          <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank">Brain Food</a>.</p>
+          <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank" rel="noopener noreferrer">Brain Food</a>.</p>
           <p>Adapts to your system's colour preference.</p>
           <p>Press <em>?</em> for keyboard shortcuts.</p>
         </div>
@@ -237,6 +237,7 @@
           const a = document.createElement('a');
           a.href = book.url;
           a.target = '_blank';
+          a.rel = 'noopener noreferrer';
           a.textContent = `${book.title} — ${book.author}`;
           p.appendChild(a);
           list.appendChild(p);
@@ -267,6 +268,7 @@
           const a = document.createElement('a');
           a.href = project.url;
           a.target = '_blank';
+          a.rel = 'noopener noreferrer';
           a.textContent = project.title;
           p.appendChild(a);
         } else {
