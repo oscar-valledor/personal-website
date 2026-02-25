@@ -67,15 +67,31 @@ async function reverseGeocode(lat, lon) {
   return a.city ?? a.town ?? a.village ?? a.county ?? a.state ?? 'Unknown';
 }
 
+function calcMoonPhase() {
+  const knownNewMoon = new Date('2000-01-06T18:14:00Z');
+  const lunarCycle = 29.53059;
+  const elapsed = (Date.now() - knownNewMoon.getTime()) / 86400000;
+  const phase = ((elapsed % lunarCycle) + lunarCycle) % lunarCycle / lunarCycle;
+  if (phase < 0.0625 || phase >= 0.9375) return 'New Moon';
+  if (phase < 0.1875) return 'Waxing Crescent';
+  if (phase < 0.3125) return 'First Quarter';
+  if (phase < 0.4375) return 'Waxing Gibbous';
+  if (phase < 0.5625) return 'Full Moon';
+  if (phase < 0.6875) return 'Waning Gibbous';
+  if (phase < 0.8125) return 'Last Quarter';
+  return 'Waning Crescent';
+}
+
 async function getWeather(lat, lon) {
   const res = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,uv_index,weather_code&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,uv_index,weather_code&timezone=auto`
   );
   if (!res.ok) throw new Error(`Open-Meteo ${res.status}`);
   const data = await res.json();
   const c = data.current;
   return {
     temp: Math.round(c.temperature_2m),
+    humidity: Math.round(c.relative_humidity_2m),
     uv: Math.round(c.uv_index * 10) / 10,
     description: WMO[c.weather_code] ?? 'Unknown',
   };
@@ -85,6 +101,7 @@ async function initPresent() {
   const elCity    = document.getElementById('present-city');
   const elCoords  = document.getElementById('present-coords');
   const elWeather = document.getElementById('present-weather');
+  const elMoon    = document.getElementById('present-moon');
   const container = document.getElementById('present');
 
   startClock();
@@ -111,16 +128,17 @@ async function initPresent() {
   elCity.textContent = city.status === 'fulfilled' ? city.value : 'Unknown Location';
 
   if (weather.status === 'fulfilled') {
-    const { temp, uv, description } = weather.value;
-    elWeather.textContent = `${temp}°C  ·  UV ${uv}  ·  ${description}`;
+    const { temp, humidity, uv, description } = weather.value;
+    elWeather.textContent = `${temp}°C  ·  ${humidity}%  ·  UV ${uv}  ·  ${description}`;
   }
+  elMoon.textContent = calcMoonPhase();
 
   container.classList.add('is-ready');
 
   setInterval(async () => {
     try {
       const w = await getWeather(lat, lon);
-      elWeather.textContent = `${w.temp}°C  ·  UV ${w.uv}  ·  ${w.description}`;
+      elWeather.textContent = `${w.temp}°C  ·  ${w.humidity}%  ·  UV ${w.uv}  ·  ${w.description}`;
     } catch {}
   }, 600_000);
 }
