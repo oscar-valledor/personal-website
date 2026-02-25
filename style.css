@@ -31,6 +31,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  transition: opacity 500ms ease;
 }
 
 .bottom {
@@ -70,4 +71,52 @@ a {
 
 a:hover {
   opacity: 0.35;
+}
+
+/* Books view */
+
+.page {
+  position: relative;
+}
+
+#books-view {
+  position: absolute;
+  inset: 0;
+  padding: 5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+.books-active #books-view {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.books-active .top,
+.books-active .middle,
+.books-active .bottom {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.books-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.books-label {
+  opacity: 0.4;
+  margin-bottom: 0.25rem;
+}
+
+.books-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }

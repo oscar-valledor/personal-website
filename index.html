@@ -11,11 +11,11 @@
     <div class="page">
 
       <div class="top">
-        <span>Oscar Valledor</span>
+        <span>Oscar Valledor - <em>Architect of Ideas</em></span>
       </div>
 
       <div class="middle">
-        <p>Architect of Ideas. Strategy, Product, Brand.<br>
+        <p>Strategy, Product, Brand.<br>
         Co-Founder of Project Lobster (acquired by Ace &amp; Tate).</p>
       </div>
 
@@ -33,11 +33,81 @@
           <a href="https://instagram.com/oscarvalledor" target="_blank">Instagram</a>
           <a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank">LinkedIn</a>
           <a href="mailto:ovalledor@gmail.com">Email</a>
+          <a href="#" id="books-link">Books</a>
         </nav>
+      </div>
+
+      <div id="books-view">
+        <div class="books-list"></div>
+        <div class="books-footer">
+          <span></span>
+          <nav>
+            <a href="#" id="books-close">Close</a>
+          </nav>
+        </div>
       </div>
 
     </div>
 
   <script src="present.js"></script>
+  <script>
+    const booksLink = document.getElementById('books-link');
+    const booksClose = document.getElementById('books-close');
+    const page = document.querySelector('.page');
+    const booksList = document.querySelector('.books-list');
+
+    let booksData = null;
+
+    async function loadBooks() {
+      if (booksData) return booksData;
+      const res = await fetch('books.json');
+      booksData = await res.json();
+      return booksData;
+    }
+
+    function renderBooks(data) {
+      booksList.innerHTML = '';
+
+      const sections = [
+        { label: 'Currently reading', items: data.currentlyReading },
+        { label: null, items: data.read },
+      ];
+
+      let first = true;
+      for (const section of sections) {
+        if (!section.items.length) continue;
+
+        if (section.label) {
+          const label = document.createElement('p');
+          label.className = 'books-label';
+          label.textContent = section.label;
+          booksList.appendChild(label);
+          first = false;
+        }
+
+        for (const book of section.items) {
+          const p = document.createElement('p');
+          const a = document.createElement('a');
+          a.href = book.url;
+          a.target = '_blank';
+          a.textContent = `${book.title} — ${book.author}`;
+          p.appendChild(a);
+          booksList.appendChild(p);
+        }
+      }
+    }
+
+    booksLink.addEventListener('click', async function(e) {
+      e.preventDefault();
+      page.classList.add('books-active');
+      const data = await loadBooks();
+      renderBooks(data);
+    });
+
+    booksClose.addEventListener('click', function(e) {
+      e.preventDefault();
+      page.classList.remove('books-active');
+    });
+  </script>
   </body>
 </html>
