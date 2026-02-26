@@ -179,6 +179,35 @@ a:hover {
   align-items: flex-end;
 }
 
+/* Now view */
+
+.now-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.ascii-tree {
+  font-family: monospace;
+  font-size: 0.45rem;
+  line-height: 1.2;
+  white-space: pre;
+  margin: 0;
+  user-select: none;
+  overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+}
+
+@keyframes tree-reveal {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
+}
+
+[data-view="now"] .ascii-tree {
+  animation: tree-reveal 2.5s ease-out 0.4s forwards;
+}
+
 /* Dark mode */
 
 @media (prefers-color-scheme: dark) {
@@ -238,5 +267,9 @@ a:hover {
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
+  }
+
+  .ascii-tree {
+    display: none;
   }
 }
