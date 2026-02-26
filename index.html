@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Architect of Ideas</title>
+    <title>Architecture of Ideas</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
-    <meta property="og:title" content="Architect of Ideas" />
+    <meta property="og:title" content="Architecture of Ideas" />
     <meta property="og:description" content="Strategy, Product, Brand." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://oscarvalledor.com" />
     <meta property="og:image" content="https://oscarvalledor.com/og-image.svg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Architect of Ideas" />
+    <meta name="twitter:title" content="Architecture of Ideas" />
     <meta name="twitter:description" content="Strategy, Product, Brand." />
     <meta name="twitter:image" content="https://oscarvalledor.com/og-image.svg" />
 
@@ -23,7 +23,7 @@
     <div class="page">
 
       <div class="top">
-        <span>Oscar Valledor - <em>Architect of Ideas</em></span>
+        <span>Oscar Valledor - <em>Architecture of Ideas</em></span>
       </div>
 
       <div class="middle">
@@ -47,7 +47,7 @@
         <nav>
           <a href="#" data-view="now">Now</a>
           <a href="#" data-view="essays">Essays</a>
-          <a href="#" data-view="projects">Projects</a>
+          <a href="#" data-view="projects">Work</a>
           <a href="#" data-view="books">Books</a>
           <a href="#" data-view="contact">Contact</a>
         </nav>
@@ -98,7 +98,7 @@
         <div class="view-list">
           <p><span class="shortcut-key">N</span><span class="view-meta"> — Now</span></p>
           <p><span class="shortcut-key">E</span><span class="view-meta"> — Essays</span></p>
-          <p><span class="shortcut-key">P</span><span class="view-meta"> — Projects</span></p>
+          <p><span class="shortcut-key">W</span><span class="view-meta"> — Work</span></p>
           <p><span class="shortcut-key">B</span><span class="view-meta"> — Books</span></p>
           <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
@@ -166,6 +166,7 @@
 
     // — View system —
     function openView(name) {
+      if (page.dataset.view === name) { closeView(); return; }
       page.dataset.view = name;
       loadView(name);
     }
@@ -200,7 +201,7 @@
         return;
       }
       if (page.dataset.view) return;
-      const shortcuts = { b: 'books', n: 'now', e: 'essays', p: 'projects', c: 'contact' };
+      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact' };
       const view = shortcuts[e.key.toLowerCase()];
       if (view) openView(view);
     });
@@ -308,18 +309,21 @@
       }
       for (const post of data.posts) {
         const p = document.createElement('p');
-        if (post.url) {
+        if (post.slug) {
           const a = document.createElement('a');
-          a.href = post.url;
+          a.href = `essays/${post.slug}.html`;
           a.textContent = post.title;
           p.appendChild(a);
         } else {
           p.appendChild(document.createTextNode(post.title));
         }
-        if (post.date) {
+        const metaParts = [];
+        if (post.author) metaParts.push(post.author);
+        if (post.date) metaParts.push(post.date);
+        if (metaParts.length) {
           const meta = document.createElement('span');
           meta.className = 'view-meta';
-          meta.textContent = ` — ${post.date}`;
+          meta.textContent = ` — ${metaParts.join(', ')}`;
           p.appendChild(meta);
         }
         list.appendChild(p);

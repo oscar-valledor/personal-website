@@ -2,7 +2,15 @@
   "posts": [
     {
       "title": "Simplicity is a strategy.",
+      "slug": "simplicity-is-a-strategy",
       "date": "2026-02-25"
+    },
+    {
+      "title": "Cities and Ambition",
+      "slug": "cities-and-ambition",
+      "author": "Paul Graham",
+      "date": "May 2008",
+      "source": "https://www.paulgraham.com/cities.html"
     }
   ]
 }

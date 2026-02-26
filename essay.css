@@ -1,0 +1,29 @@
+/* Allow scrolling on essay pages (overrides style.css) */
+@media (min-width: 601px) {
+  html, body { overflow: auto; }
+}
+
+/* Essay page layout */
+.page {
+  justify-content: flex-start;
+  gap: 5vw;
+}
+
+/* Essay header */
+.essay-header {
+  max-width: 560px;
+}
+
+.essay-title {
+  font-style: italic;
+  margin-bottom: 0.4rem;
+}
+
+/* Essay body */
+.essay-body {
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  line-height: 1.6;
+}
