@@ -101,6 +101,7 @@
           <p><span class="shortcut-key">W</span><span class="view-meta"> — Work</span></p>
           <p><span class="shortcut-key">B</span><span class="view-meta"> — Books</span></p>
           <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
+          <p><span class="shortcut-key">M</span><span class="view-meta"> — Moon</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
           <p><span class="shortcut-key">Esc</span><span class="view-meta"> — Close</span></p>
         </div>
@@ -119,6 +120,31 @@
           <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank" rel="noopener noreferrer">Brain Food</a>.</p>
           <p>Adapts to your system's colour preference.</p>
           <p>Press <em>?</em> for keyboard shortcuts.</p>
+        </div>
+        <div class="view-footer">
+          <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Moon -->
+      <div id="moon-view" class="overlay-view">
+        <div class="view-list">
+          <p id="moon-phase"></p>
+          <p id="moon-detail" class="view-meta"></p>
+        </div>
+        <div class="view-footer">
+          <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Konami -->
+      <div id="konami-view" class="overlay-view">
+        <div class="view-list">
+          <p>You found it.</p>
+          <p>Most things worth finding aren't indexed.</p>
+          <p>Keep looking.</p>
         </div>
         <div class="view-footer">
           <span></span>
@@ -151,18 +177,34 @@
     // — Page fade-in —
     setTimeout(function() { page.classList.add('is-ready'); }, 100);
 
-    // — Quote —
+    // — Quote (rotates every 4 minutes) —
     (async function () {
       try {
         const res = await fetch('quotes.json');
         const data = await res.json();
-        if (data.quotes && data.quotes.length) {
-          const q = data.quotes[Math.floor(Math.random() * data.quotes.length)];
-          const el = document.getElementById('quote');
-          el.textContent = q.text;
-          el.title = q.edition;
-          el.classList.add('is-ready');
+        if (!data.quotes || !data.quotes.length) return;
+        const quotes = data.quotes;
+        const el = document.getElementById('quote');
+        let current = Math.floor(Math.random() * quotes.length);
+
+        function showQuote(q) {
+          el.classList.remove('is-ready');
+          setTimeout(function() {
+            el.textContent = q.text;
+            el.title = q.edition;
+            el.classList.add('is-ready');
+          }, 400);
         }
+
+        showQuote(quotes[current]);
+
+        setInterval(function() {
+          let next;
+          do { next = Math.floor(Math.random() * quotes.length); }
+          while (next === current && quotes.length > 1);
+          current = next;
+          showQuote(quotes[current]);
+        }, 4 * 60 * 1000);
       } catch (e) {}
     })();
 
@@ -193,17 +235,80 @@
       });
     });
 
+    // — Tab title clock —
+    let titleTimer = null;
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        function tickTitle() {
+          const now = new Date();
+          document.title = [
+            String(now.getHours()).padStart(2, '0'),
+            String(now.getMinutes()).padStart(2, '0'),
+            String(now.getSeconds()).padStart(2, '0'),
+          ].join(':');
+        }
+        tickTitle();
+        titleTimer = setInterval(tickTitle, 1000);
+      } else {
+        clearInterval(titleTimer);
+        document.title = 'Architecture of Ideas';
+      }
+    });
+
+    // — Hello easter egg —
+    function triggerHello() {
+      if (document.querySelector('.hello-flash')) return;
+      const el = document.createElement('div');
+      el.className = 'hello-flash';
+      el.textContent = 'hola.';
+      document.body.appendChild(el);
+      requestAnimationFrame(function() { el.classList.add('is-visible'); });
+      setTimeout(function() {
+        el.classList.remove('is-visible');
+        setTimeout(function() { el.remove(); }, 600);
+      }, 2500);
+    }
+
+    // — Konami code —
+    const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let konamiPos = 0;
+
     // — Keyboard shortcuts —
+    let typedBuffer = '';
     document.addEventListener('keydown', function(e) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      // Konami (works regardless of open view)
+      if (e.key === konamiSeq[konamiPos]) {
+        konamiPos++;
+        if (konamiPos === konamiSeq.length) {
+          konamiPos = 0;
+          openView('konami');
+          return;
+        }
+      } else {
+        konamiPos = e.key === konamiSeq[0] ? 1 : 0;
+      }
+
       if (e.key === 'Escape') { closeView(); return; }
       if (e.key === '?') {
         page.dataset.view === 'shortcuts' ? closeView() : openView('shortcuts');
         return;
       }
       if (page.dataset.view) return;
-      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact' };
+
+      // Hello detection
+      if (e.key.length === 1) {
+        typedBuffer = (typedBuffer + e.key).slice(-10);
+        if (typedBuffer.toLowerCase().includes('hola')) {
+          typedBuffer = '';
+          triggerHello();
+          return;
+        }
+      }
+
+      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact', m: 'moon' };
       const view = shortcuts[e.key.toLowerCase()];
       if (view) openView(view);
     });
@@ -339,10 +444,41 @@
       document.getElementById('now-updated').textContent = `Last updated ${label}`;
     })();
 
+    // — Moon —
+    document.getElementById('present-moon').addEventListener('click', function() {
+      openView('moon');
+    });
+
+    function renderMoon() {
+      const knownNewMoon = new Date('2000-01-06T18:14:00Z');
+      const lunarCycle = 29.53059;
+      const elapsed = (Date.now() - knownNewMoon.getTime()) / 86400000;
+      const dayInCycle = ((elapsed % lunarCycle) + lunarCycle) % lunarCycle;
+      const phase = dayInCycle / lunarCycle;
+
+      let phaseName;
+      if (phase < 0.0625 || phase >= 0.9375) phaseName = 'New Moon';
+      else if (phase < 0.1875) phaseName = 'Waxing Crescent';
+      else if (phase < 0.3125) phaseName = 'First Quarter';
+      else if (phase < 0.4375) phaseName = 'Waxing Gibbous';
+      else if (phase < 0.5625) phaseName = 'Full Moon';
+      else if (phase < 0.6875) phaseName = 'Waning Gibbous';
+      else if (phase < 0.8125) phaseName = 'Last Quarter';
+      else phaseName = 'Waning Crescent';
+
+      const daysToFull = dayInCycle < 14.77 ? 14.77 - dayInCycle : lunarCycle - dayInCycle + 14.77;
+      const daysToNew = lunarCycle - dayInCycle;
+
+      document.getElementById('moon-phase').textContent = phaseName;
+      document.getElementById('moon-detail').textContent =
+        `Day ${Math.floor(dayInCycle) + 1} of 30 · Full moon in ${Math.ceil(daysToFull)} day${Math.ceil(daysToFull) === 1 ? '' : 's'} · New moon in ${Math.ceil(daysToNew)} days`;
+    }
+
     async function loadView(name) {
       if (name === 'books') renderBooks(await loadBooks());
       if (name === 'projects') renderProjects(await loadProjects());
       if (name === 'essays') renderEssays(await loadEssays());
+      if (name === 'moon') renderMoon();
     }
   </script>
   </body>

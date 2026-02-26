@@ -140,7 +140,9 @@ a:hover {
 [data-view="now"] #now-view,
 [data-view="contact"] #contact-view,
 [data-view="colophon"] #colophon-view,
-[data-view="shortcuts"] #shortcuts-view {
+[data-view="shortcuts"] #shortcuts-view,
+[data-view="moon"] #moon-view,
+[data-view="konami"] #konami-view {
   opacity: 1;
   pointer-events: auto;
 }
@@ -198,6 +200,7 @@ a:hover {
   display: block;
   user-select: none;
   clip-path: inset(100% 0 0 0);
+  transform-origin: bottom center;
 }
 
 @keyframes tree-reveal {
@@ -205,8 +208,39 @@ a:hover {
   to   { clip-path: inset(0% 0 0 0); }
 }
 
+@keyframes tree-breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.015); }
+}
+
 [data-view="now"] .now-tree {
-  animation: tree-reveal 2.5s ease-out 0.4s forwards;
+  animation:
+    tree-reveal 2.5s ease-out 0.4s forwards,
+    tree-breathe 5s ease-in-out 2.9s infinite;
+}
+
+/* Moon */
+
+#present-moon {
+  display: none;
+}
+
+/* Hello flash */
+
+.hello-flash {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.hello-flash.is-visible {
+  opacity: 1;
 }
 
 /* Dark mode */

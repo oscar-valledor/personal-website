@@ -131,7 +131,7 @@ async function initPresent() {
   //   const { temp, humidity, uv, description } = weather.value;
   //   elWeather.textContent = `${temp}°C  ·  ${humidity}%  ·  UV ${uv}  ·  ${description}`;
   // }
-  // elMoon.textContent = calcMoonPhase();
+  elMoon.textContent = calcMoonPhase();
 
   container.classList.add('is-ready');
 
