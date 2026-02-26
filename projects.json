@@ -1,16 +1,27 @@
 {
   "projects": [
     {
+      "title": "Ace & Tate",
+      "status": "present",
+      "url": "https://www.aceandtate.com/"
+    },
+    {
       "title": "Project Lobster",
-      "role": "co-founder",
-      "description": "contemporary visioncare",
-      "status": "acquired by Ace & Tate",
+      "status": "founder — acquired by Ace & Tate",
       "url": "https://projectlobster.com/"
     },
     {
+      "title": "Spathios",
+      "status": "seed investor — exited to Barlon Capital",
+      "url": "https://spathios.com/"
+    },
+    {
+      "title": "mid/night 00.00",
+      "status": "seed investor",
+      "url": "https://midnightcosmetics.co/"
+    },
+    {
       "title": "Querida",
-      "role": "undefined",
-      "description": "creative services",
       "status": "under development",
       "url": "https://querida.si/",
       "hidden": true
