@@ -435,7 +435,6 @@
         const metaParts = [];
         if (post.author) metaParts.push(post.author);
         if (post.date) metaParts.push(post.date);
-        if (post.readingTime) metaParts.push(post.readingTime);
         if (metaParts.length) {
           const meta = document.createElement('span');
           meta.className = 'view-meta';
