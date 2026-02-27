@@ -318,8 +318,8 @@ a:hover {
   }
 
   .now-tree {
-    width: 100vw;
+    width: calc(100% + 10vw);
     margin-left: -5vw;
-    align-self: flex-end;
+    align-self: flex-start;
   }
 }
