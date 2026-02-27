@@ -195,7 +195,7 @@ a:hover {
 }
 
 .now-tree {
-  width: 360px;
+  width: 480px;
   height: auto;
   display: block;
   user-select: none;
@@ -316,7 +316,7 @@ a:hover {
   }
 
   .now-tree {
-    width: calc(50vw - 5vw);
+    width: calc(100vw - 10vw);
     align-self: flex-end;
   }
 }
