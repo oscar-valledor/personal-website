@@ -316,7 +316,8 @@ a:hover {
   }
 
   .now-tree {
-    width: calc(100vw - 10vw);
+    width: 100vw;
+    margin-left: -5vw;
     align-self: flex-end;
   }
 }
