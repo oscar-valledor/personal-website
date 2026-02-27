@@ -1,3 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect x="1" y="1" width="30" height="30" fill="white" stroke="black" stroke-width="2"/>
+  <rect width="32" height="32" fill="white"/>
+  <!-- Canopy: wide overlapping ellipses for organic oak shape -->
+  <ellipse cx="16" cy="16" rx="13.5" ry="8.5" fill="black"/>
+  <ellipse cx="10" cy="11" rx="7"    ry="6"   fill="black"/>
+  <ellipse cx="22" cy="11" rx="7"    ry="6"   fill="black"/>
+  <ellipse cx="16" cy="8"  rx="7"    ry="6"   fill="black"/>
+  <!-- Trunk -->
+  <rect x="13.5" y="23" width="5" height="7" rx="0.5" fill="black"/>
 </svg>
