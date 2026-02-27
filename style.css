@@ -201,8 +201,6 @@ a:hover {
   user-select: none;
   clip-path: inset(100% 0 0 0);
   transform-origin: bottom center;
-  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
 }
 
 @keyframes tree-reveal {
