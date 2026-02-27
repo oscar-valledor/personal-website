@@ -102,10 +102,7 @@ a:hover {
 /* Quote */
 
 #quote {
-  max-width: 45vw;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  font-style: italic;
+  display: none;
 }
 
 #quote.is-ready {

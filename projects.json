@@ -19,14 +19,16 @@
       "status": "seed investor — exited to Barlon Capital",
       "stage": "bare",
       "description": "",
-      "url": "https://spathios.com/"
+      "url": "https://spathios.com/",
+      "hidden": true
     },
     {
       "title": "mid/night 00.00",
       "status": "seed investor",
       "stage": "seedling",
       "description": "",
-      "url": "https://midnightcosmetics.co/"
+      "url": "https://midnightcosmetics.co/",
+      "hidden": true
     },
     {
       "title": "Querida",
