@@ -390,6 +390,14 @@
           p.appendChild(span);
         }
 
+        if (project.description) {
+          p.appendChild(document.createElement('br'));
+          const desc = document.createElement('span');
+          desc.className = 'view-meta';
+          desc.textContent = project.description;
+          p.appendChild(desc);
+        }
+
         list.appendChild(p);
       }
     }
@@ -427,6 +435,7 @@
         const metaParts = [];
         if (post.author) metaParts.push(post.author);
         if (post.date) metaParts.push(post.date);
+        if (post.readingTime) metaParts.push(post.readingTime);
         if (metaParts.length) {
           const meta = document.createElement('span');
           meta.className = 'view-meta';
@@ -473,6 +482,12 @@
       document.getElementById('moon-detail').textContent =
         `Day ${Math.floor(dayInCycle) + 1} of 30 · Full moon in ${Math.ceil(daysToFull)} day${Math.ceil(daysToFull) === 1 ? '' : 's'} · New moon in ${Math.ceil(daysToNew)} days`;
     }
+
+    // — Auto-open view from URL param (e.g. ?view=essays) —
+    (function() {
+      const v = new URLSearchParams(window.location.search).get('view');
+      if (v) openView(v);
+    })();
 
     async function loadView(name) {
       if (name === 'books') renderBooks(await loadBooks());
