@@ -209,14 +209,16 @@ a:hover {
 }
 
 @keyframes tree-breathe {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.015); }
+  0%      { transform: scale(1)     translateY(0);    animation-timing-function: ease-in; }
+  33.33%  { transform: scale(1.03)  translateY(-4px); animation-timing-function: linear; }
+  66.66%  { transform: scale(1.03)  translateY(-4px); animation-timing-function: ease-out; }
+  100%    { transform: scale(1)     translateY(0); }
 }
 
 [data-view="now"] .now-tree {
   animation:
     tree-reveal 2.5s ease-out 0.4s forwards,
-    tree-breathe 5s ease-in-out 2.9s infinite;
+    tree-breathe 9s linear 2.9s infinite;
 }
 
 /* Moon */
