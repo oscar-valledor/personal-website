@@ -39,15 +39,15 @@ body {
   opacity: 1;
 }
 
-.middle {
-  display: none;
-}
-
 .top, .middle, .bottom {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   transition: opacity 500ms ease;
+}
+
+.middle {
+  display: none;
 }
 
 .bottom {
