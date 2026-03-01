@@ -255,10 +255,12 @@
 
     function openView(name) {
       if (page.dataset.view === name) { closeView(); return; }
-      // Pre-load data before showing the view so stagger delays are set before CSS transition triggers
       loadView(name).then(function() {
         staggerView(name);
         viewTitleEl.textContent = viewTitleMap[name] || name;
+        // Force reflow so dynamically-created items settle at opacity:0
+        // before the transition to opacity:1 triggers via data-view
+        void document.body.offsetHeight;
         page.dataset.view = name;
       });
     }
