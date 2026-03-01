@@ -1,0 +1,29 @@
+{
+  "links": [
+    {
+      "title": "Farnam Street",
+      "url": "https://fs.blog",
+      "description": "Clear thinking and decision-making"
+    },
+    {
+      "title": "Patrick Collison",
+      "url": "https://patrickcollison.com",
+      "description": "Bookmarks, questions, and fast"
+    },
+    {
+      "title": "Paul Graham",
+      "url": "https://paulgraham.com",
+      "description": "Essays on startups and life"
+    },
+    {
+      "title": "Ribbonfarm",
+      "url": "https://www.ribbonfarm.com",
+      "description": "Longform thinking"
+    },
+    {
+      "title": "Derek Sivers",
+      "url": "https://sive.rs",
+      "description": "Short, useful ideas"
+    }
+  ]
+}

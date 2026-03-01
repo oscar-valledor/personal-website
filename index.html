@@ -63,12 +63,16 @@
             </div>
           </div>
         </div>
-        <nav>
+        <nav class="site-nav">
           <a href="#" data-view="now">Now</a>
           <a href="#" data-view="essays">Essays</a>
+          <a href="#" data-view="thoughts">Thoughts</a>
           <a href="#" data-view="projects">Work</a>
           <a href="#" data-view="books">Books</a>
+          <a href="#" data-view="music">Music</a>
+          <a href="#" data-view="links">Links</a>
           <a href="#" data-view="contact">Contact</a>
+          <a href="#" data-view="about">About</a>
         </nav>
       </div>
 
@@ -94,7 +98,7 @@
       <div id="essays-view" class="overlay-view">
         <div class="view-list"></div>
         <div class="view-footer">
-          <span></span>
+          <span>Long form.</span>
           <nav><a href="#" class="view-close">Close</a></nav>
         </div>
       </div>
@@ -107,7 +111,7 @@
           <p><a href="mailto:ovalledor@gmail.com">Email</a></p>
         </div>
         <div class="view-footer">
-          <span></span>
+          <span>Get in touch.</span>
           <nav><a href="#" class="view-close">Close</a></nav>
         </div>
       </div>
@@ -115,10 +119,13 @@
       <!-- Shortcuts -->
       <div id="shortcuts-view" class="overlay-view">
         <div class="view-list">
+          <p><span class="shortcut-key">A</span><span class="view-meta"> — About</span></p>
           <p><span class="shortcut-key">N</span><span class="view-meta"> — Now</span></p>
           <p><span class="shortcut-key">E</span><span class="view-meta"> — Essays</span></p>
+          <p><span class="shortcut-key">T</span><span class="view-meta"> — Thoughts</span></p>
           <p><span class="shortcut-key">W</span><span class="view-meta"> — Work</span></p>
           <p><span class="shortcut-key">B</span><span class="view-meta"> — Books</span></p>
+          <p><span class="shortcut-key">L</span><span class="view-meta"> — Links</span></p>
           <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
           <p><span class="shortcut-key">M</span><span class="view-meta"> — Moon</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
@@ -138,6 +145,7 @@
           <p>Hosted on GitHub Pages.</p>
           <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank" rel="noopener noreferrer">Brain Food</a>.</p>
           <p>Adapts to your system's colour preference.</p>
+          <p>Everything here is written by a human.</p>
           <p>Press <em>?</em> for keyboard shortcuts.</p>
         </div>
         <div class="view-footer">
@@ -167,6 +175,56 @@
         </div>
         <div class="view-footer">
           <span></span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div id="about-view" class="overlay-view">
+        <div class="view-list">
+          <p>Barcelona-based. Working at the intersection of strategy, product, and brand.</p>
+          <p>Founded <a href="https://www.aceandtate.com" target="_blank" rel="noopener noreferrer">Project Lobster</a>, acquired by Ace & Tate. Currently at Ace & Tate.</p>
+          <p>Seed investor in <a href="https://spathios.com" target="_blank" rel="noopener noreferrer">Spathios</a> (exited to Barlon Capital).</p>
+          <p>Interested in consumer, artificial intelligence, and health.</p>
+        </div>
+        <div class="view-footer">
+          <span>Barcelona, 1994.</span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Music -->
+      <div id="music-view" class="overlay-view">
+        <div class="view-list"></div>
+        <div class="view-footer">
+          <span>What I'm listening to.</span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div id="links-view" class="overlay-view">
+        <div class="view-list">
+          <p><a href="https://fs.blog" target="_blank" rel="noopener noreferrer">Farnam Street</a><span class="view-meta"> — Clear thinking and decision-making</span></p>
+          <p><a href="https://patrickcollison.com" target="_blank" rel="noopener noreferrer">Patrick Collison</a><span class="view-meta"> — Bookmarks, questions, and fast</span></p>
+          <p><a href="https://paulgraham.com" target="_blank" rel="noopener noreferrer">Paul Graham</a><span class="view-meta"> — Essays on startups and life</span></p>
+          <p><a href="https://www.ribbonfarm.com" target="_blank" rel="noopener noreferrer">Ribbonfarm</a><span class="view-meta"> — Longform thinking</span></p>
+          <p><a href="https://sive.rs" target="_blank" rel="noopener noreferrer">Derek Sivers</a><span class="view-meta"> — Short, useful ideas</span></p>
+          <p><a href="https://nav.al/" target="_blank" rel="noopener noreferrer">Naval Ravikant</a><span class="view-meta"> — Wealth, happiness, and philosophy</span></p>
+          <p><a href="https://www.youtube.com/@veritasium" target="_blank" rel="noopener noreferrer">Veritasium</a><span class="view-meta"> — Science and engineering</span></p>
+          <p><a href="https://www.youtube.com/@SabineHossenfelder" target="_blank" rel="noopener noreferrer">Sabine Hossenfelder</a><span class="view-meta"> — Physics without the hype</span></p>
+        </div>
+        <div class="view-footer">
+          <span>Worth bookmarking.</span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
+      <!-- Thoughts -->
+      <div id="thoughts-view" class="overlay-view">
+        <div class="view-list"></div>
+        <div class="view-footer">
+          <span>Short form.</span>
           <nav><a href="#" class="view-close">Close</a></nav>
         </div>
       </div>
@@ -327,7 +385,7 @@
         }
       }
 
-      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact', m: 'moon' };
+      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact', m: 'moon', a: 'about', t: 'thoughts', l: 'links' };
       const view = shortcuts[e.key.toLowerCase()];
       if (view) openView(view);
     });
@@ -464,6 +522,71 @@
       }
     }
 
+    // — Music —
+    let musicData = null;
+
+    async function loadMusic() {
+      if (musicData) return musicData;
+      const res = await fetch('music.json');
+      musicData = await res.json();
+      return musicData;
+    }
+
+    function renderMusic(data) {
+      const list = document.querySelector('#music-view .view-list');
+      list.innerHTML = '';
+
+      const sections = [
+        { label: 'Playlists', items: data.playlists, format: p => p.title },
+        { label: 'Albums', items: data.albums, format: a => `${a.title} — ${a.artist}` },
+      ];
+
+      for (const section of sections) {
+        if (!section.items.length) continue;
+        const label = document.createElement('p');
+        label.className = 'view-label';
+        label.textContent = section.label;
+        list.appendChild(label);
+        for (const item of section.items) {
+          const p = document.createElement('p');
+          const a = document.createElement('a');
+          a.href = item.url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = section.format(item);
+          p.appendChild(a);
+          list.appendChild(p);
+        }
+      }
+    }
+
+    // — Thoughts —
+    let thoughtsData = null;
+
+    async function loadThoughts() {
+      if (thoughtsData) return thoughtsData;
+      const res = await fetch('thoughts.json');
+      thoughtsData = await res.json();
+      return thoughtsData;
+    }
+
+    function renderThoughts(data) {
+      const list = document.querySelector('#thoughts-view .view-list');
+      list.innerHTML = '';
+      const sorted = data.thoughts.slice().sort((a, b) => b.date.localeCompare(a.date));
+      for (let i = 0; i < sorted.length; i++) {
+        if (i > 0) {
+          const sep = document.createElement('p');
+          sep.className = 'thought-separator';
+          sep.textContent = '*';
+          list.appendChild(sep);
+        }
+        const p = document.createElement('p');
+        p.textContent = sorted[i].text;
+        list.appendChild(p);
+      }
+    }
+
     // — Now —
     (function () {
       const d = new Date(document.getElementById('now-view').dataset.updated);
@@ -512,6 +635,8 @@
       if (name === 'projects') renderProjects(await loadProjects());
       if (name === 'essays') renderEssays(await loadEssays());
       if (name === 'moon') renderMoon();
+      if (name === 'music') renderMusic(await loadMusic());
+      if (name === 'thoughts') renderThoughts(await loadThoughts());
     }
 
   </script>

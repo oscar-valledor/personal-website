@@ -84,6 +84,13 @@ nav {
   gap: 2rem;
 }
 
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  transition: opacity 500ms ease;
+}
+
 a {
   color: #000000;
   text-decoration: none;
@@ -143,7 +150,11 @@ a:hover {
 [data-view="colophon"] #colophon-view,
 [data-view="shortcuts"] #shortcuts-view,
 [data-view="moon"] #moon-view,
-[data-view="konami"] #konami-view {
+[data-view="konami"] #konami-view,
+[data-view="about"] #about-view,
+[data-view="music"] #music-view,
+[data-view="links"] #links-view,
+[data-view="thoughts"] #thoughts-view {
   opacity: 1;
   pointer-events: auto;
 }
@@ -164,6 +175,11 @@ a:hover {
 .view-label {
   opacity: 0.4;
   margin-bottom: 0.25rem;
+}
+
+.thought-separator {
+  opacity: 0.3;
+  text-align: center;
 }
 
 .view-meta {
@@ -301,7 +317,7 @@ a:hover {
     gap: 2rem;
   }
 
-  .bottom nav {
+  .bottom .site-nav {
     order: -1;
   }
 
@@ -313,11 +329,6 @@ a:hover {
   .bottom-meta {
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  nav {
-    gap: 1rem;
-    flex-wrap: wrap;
   }
 
   #present {

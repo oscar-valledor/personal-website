@@ -1,0 +1,29 @@
+{
+  "playlists": [
+    {
+      "title": "Focus",
+      "url": "https://open.spotify.com"
+    },
+    {
+      "title": "Sunday Morning",
+      "url": "https://open.spotify.com"
+    }
+  ],
+  "albums": [
+    {
+      "title": "In Rainbows",
+      "artist": "Radiohead",
+      "url": "https://open.spotify.com"
+    },
+    {
+      "title": "Kind of Blue",
+      "artist": "Miles Davis",
+      "url": "https://open.spotify.com"
+    },
+    {
+      "title": "Blonde",
+      "artist": "Frank Ocean",
+      "url": "https://open.spotify.com"
+    }
+  ]
+}
