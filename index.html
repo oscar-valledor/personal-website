@@ -16,6 +16,7 @@
     <meta name="twitter:description" content="Architecture of Ideas" />
     <meta name="twitter:image" content="https://oscarvalledor.com/og-image.png" />
 
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://nominatim.openstreetmap.org https://api.open-meteo.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none';">
     <link rel="stylesheet" href="style.css" />
 
     <!-- Google Analytics -->
@@ -95,7 +96,7 @@
         <div class="view-list">
           <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a></p>
           <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-          <p><a href="mailto:ovalledor@gmail.com">Email</a></p>
+          <p><a href="#" id="email-link">Email</a></p>
         </div>
         <div class="view-footer">
           <span>Get in touch.</span>
@@ -644,6 +645,13 @@
       else if (name === 'music') renderMusic(await loadMusic());
       else if (name === 'thoughts') renderThoughts(await loadThoughts());
     }
+
+    // — Email obfuscation —
+    (function() {
+      var a = 'ovalledor', b = 'gmail.com';
+      var el = document.getElementById('email-link');
+      el.href = 'mailto:' + a + '@' + b;
+    })();
 
   </script>
   </body>

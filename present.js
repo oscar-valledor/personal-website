@@ -120,27 +120,25 @@ async function initPresent() {
   const lonStr = `${Math.abs(lon).toFixed(4)}° ${lon >= 0 ? 'E' : 'W'}`;
   elCoords.textContent = `${latStr}, ${lonStr}`;
 
-  const [city, weather] = await Promise.allSettled([
-    reverseGeocode(lat, lon),
-    getWeather(lat, lon),
-  ]);
+  let city;
+  try {
+    city = await reverseGeocode(lat, lon);
+  } catch {
+    city = null;
+  }
 
-  elCity.textContent = city.status === 'fulfilled' ? city.value : 'Unknown Location';
-
-  // if (weather.status === 'fulfilled') {
-  //   const { temp, humidity, uv, description } = weather.value;
-  //   elWeather.textContent = `${temp}°C  ·  ${humidity}%  ·  UV ${uv}  ·  ${description}`;
-  // }
+  elCity.textContent = city ?? 'Unknown Location';
   elMoon.textContent = calcMoonPhase();
 
   container.classList.add('is-ready');
 
-  setInterval(async () => {
-    try {
-      const w = await getWeather(lat, lon);
-      // elWeather.textContent = `${w.temp}°C  ·  ${w.humidity}%  ·  UV ${w.uv}  ·  ${w.description}`;
-    } catch {}
-  }, 600_000);
+  // Weather polling disabled — display is commented out
+  // setInterval(async () => {
+  //   try {
+  //     const w = await getWeather(lat, lon);
+  //     elWeather.textContent = `${w.temp}°C  ·  ${w.humidity}%  ·  UV ${w.uv}  ·  ${w.description}`;
+  //   } catch {}
+  // }, 600_000);
 }
 
 if (window.fetch && window.Promise) {
