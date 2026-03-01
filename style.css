@@ -110,16 +110,6 @@ a:hover {
   padding-bottom: 0;
 }
 
-/* Quote */
-
-#quote {
-  display: none;
-}
-
-#quote.is-ready {
-  opacity: 1;
-}
-
 /* Overlay views */
 
 .overlay-view {
@@ -142,6 +132,19 @@ a:hover {
   pointer-events: none;
 }
 
+.view-title {
+  position: absolute;
+  top: 5vw;
+  left: 5vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+[data-view] .view-title {
+  opacity: 1;
+}
+
 [data-view="books"] #books-view,
 [data-view="projects"] #projects-view,
 [data-view="essays"] #essays-view,
@@ -161,12 +164,17 @@ a:hover {
 
 #about-view .view-list {
   max-width: calc(50vw - 5vw);
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  gap: 1rem;
 }
 
 #thoughts-view .view-list {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+  gap: 1rem;
 }
 
 .view-list {
@@ -183,13 +191,31 @@ a:hover {
 }
 
 .view-label {
-  opacity: 0.4;
   margin-bottom: 0.25rem;
 }
 
+.view-list > .view-label ~ .view-label {
+  margin-top: 1rem;
+}
+
 .thought-separator {
-  color: #000;
-  text-align: left;
+  border: none;
+  border-top: 1px solid #000;
+  width: 2rem;
+  margin: 0.5rem 0;
+  opacity: 0.3;
+}
+
+.thought-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.thought-number {
+  opacity: 0.3;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
 }
 
 .view-meta {
@@ -254,30 +280,6 @@ a:hover {
   display: none;
 }
 
-/* Yin Yang */
-
-.yinyang {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
-  animation: yinyang-spin 48s linear infinite;
-  transition: opacity 500ms ease;
-  display: none;
-}
-
-@keyframes yinyang-spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-[data-view] .yinyang {
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* Hello flash */
 
 .hello-flash {
@@ -296,6 +298,19 @@ a:hover {
   opacity: 1;
 }
 
+/* Staggered fade-in */
+
+.view-list > * {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+[data-view] .overlay-view .view-list > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Dark mode */
 
 @media (prefers-color-scheme: dark) {
@@ -311,6 +326,10 @@ a:hover {
 
   .overlay-view {
     background: #000000;
+  }
+
+  .thought-separator {
+    border-top-color: #fff;
   }
 
   .now-tree {

@@ -34,24 +34,14 @@
       <div class="top">
         <span>Oscar Valledor - <em>Architecture of Ideas</em></span>
       </div>
+      <span class="view-title"></span>
 
       <div class="middle">
         <p>Strategy, Product, Brand.</p>
       </div>
 
-      <div class="yinyang" aria-hidden="true">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="50" fill="#000"/>
-          <path d="M50,0 A50,50 0 0,0 50,100 A25,25 0 0,0 50,50 A25,25 0 0,1 50,0" fill="#fff"/>
-          <circle cx="50" cy="25" r="6" fill="#000"/>
-          <circle cx="50" cy="75" r="6" fill="#fff"/>
-          <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" stroke-width="1"/>
-        </svg>
-      </div>
-
       <div class="bottom">
         <div class="bottom-left">
-          <p id="quote" aria-live="polite"></p>
           <div class="bottom-meta">
             <a href="#" data-view="colophon" class="copyright">© 2026</a>
             <div id="present" aria-live="polite">
@@ -143,7 +133,7 @@
           <p>Built with HTML, CSS, and vanilla JavaScript.</p>
           <p>Typeset in Times New Roman.</p>
           <p>Hosted on GitHub Pages.</p>
-          <p>Books synced from Goodreads. Quotes from <a href="https://fs.blog/brain-food/" target="_blank" rel="noopener noreferrer">Brain Food</a>.</p>
+          <p>Books synced from Goodreads.</p>
           <p>Adapts to your system's colour preference.</p>
           <p>Everything here is written by a human.</p>
           <p>Press <em>?</em> for keyboard shortcuts.</p>
@@ -256,46 +246,49 @@
     // — Page fade-in —
     setTimeout(function() { page.classList.add('is-ready'); }, 100);
 
-    // — Quote (rotates every 4 minutes) —
-    (async function () {
-      try {
-        const res = await fetch('quotes.json');
-        const data = await res.json();
-        if (!data.quotes || !data.quotes.length) return;
-        const quotes = data.quotes;
-        const el = document.getElementById('quote');
-        let current = Math.floor(Math.random() * quotes.length);
-
-        function showQuote(q) {
-          el.classList.remove('is-ready');
-          setTimeout(function() {
-            el.textContent = q.text;
-            el.title = q.edition;
-            el.classList.add('is-ready');
-          }, 400);
-        }
-
-        showQuote(quotes[current]);
-
-        setInterval(function() {
-          let next;
-          do { next = Math.floor(Math.random() * quotes.length); }
-          while (next === current && quotes.length > 1);
-          current = next;
-          showQuote(quotes[current]);
-        }, 4 * 60 * 1000);
-      } catch (e) {}
-    })();
-
     // — View system —
+    const viewTitleEl = document.querySelector('.view-title');
+    const viewTitleMap = {
+      books: 'Books', projects: 'Work', essays: 'Essays', now: 'Now',
+      contact: 'Contact', about: 'About', music: 'Music', links: 'Links',
+      thoughts: 'Thoughts', colophon: 'Colophon', shortcuts: 'Shortcuts',
+      moon: 'Moon', konami: '✦'
+    };
+
     function openView(name) {
       if (page.dataset.view === name) { closeView(); return; }
-      page.dataset.view = name;
-      loadView(name);
+      // Pre-load data before showing the view so stagger delays are set before CSS transition triggers
+      loadView(name).then(function() {
+        staggerView(name);
+        viewTitleEl.textContent = viewTitleMap[name] || name;
+        page.dataset.view = name;
+      });
+    }
+
+    function staggerView(name) {
+      const overlay = document.getElementById(name + '-view');
+      if (!overlay) return;
+      const list = overlay.querySelector('.view-list');
+      if (!list) return;
+      const items = list.children;
+      for (let i = 0; i < items.length; i++) {
+        items[i].style.transitionDelay = (i * 50) + 'ms';
+      }
     }
 
     function closeView() {
+      const viewName = page.dataset.view;
+      if (viewName) {
+        const overlay = document.getElementById(viewName + '-view');
+        if (overlay) {
+          const items = overlay.querySelector('.view-list').children;
+          for (let i = 0; i < items.length; i++) {
+            items[i].style.transitionDelay = '';
+          }
+        }
+      }
       delete page.dataset.view;
+      viewTitleEl.textContent = '';
     }
 
     document.querySelectorAll('[data-view]').forEach(el => {
@@ -578,14 +571,20 @@
       const sorted = data.thoughts.slice().sort((a, b) => b.date.localeCompare(a.date));
       for (let i = 0; i < sorted.length; i++) {
         if (i > 0) {
-          const sep = document.createElement('p');
+          const sep = document.createElement('hr');
           sep.className = 'thought-separator';
-          sep.textContent = '*';
           list.appendChild(sep);
         }
+        const row = document.createElement('div');
+        row.className = 'thought-row';
+        const num = document.createElement('span');
+        num.className = 'thought-number';
+        num.textContent = String(i + 1).padStart(2, '0');
         const p = document.createElement('p');
         p.textContent = sorted[i].text;
-        list.appendChild(p);
+        row.appendChild(num);
+        row.appendChild(p);
+        list.appendChild(row);
       }
     }
 
@@ -634,11 +633,11 @@
 
     async function loadView(name) {
       if (name === 'books') renderBooks(await loadBooks());
-      if (name === 'projects') renderProjects(await loadProjects());
-      if (name === 'essays') renderEssays(await loadEssays());
-      if (name === 'moon') renderMoon();
-      if (name === 'music') renderMusic(await loadMusic());
-      if (name === 'thoughts') renderThoughts(await loadThoughts());
+      else if (name === 'projects') renderProjects(await loadProjects());
+      else if (name === 'essays') renderEssays(await loadEssays());
+      else if (name === 'moon') renderMoon();
+      else if (name === 'music') renderMusic(await loadMusic());
+      else if (name === 'thoughts') renderThoughts(await loadThoughts());
     }
 
   </script>
