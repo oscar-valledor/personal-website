@@ -159,6 +159,12 @@ a:hover {
   pointer-events: auto;
 }
 
+#thoughts-view .view-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
 .view-list {
   display: flex;
   flex-direction: column;
