@@ -36,9 +36,17 @@
       </div>
       <span class="view-title"></span>
 
-      <div class="middle">
-        <p>Strategy, Product, Brand.</p>
-      </div>
+      <nav class="site-nav">
+        <a href="#" data-view="now">Now</a>
+        <a href="#" data-view="projects">Work</a>
+        <a href="#" data-view="about">About</a>
+        <a href="#" data-view="essays">Essays</a>
+        <a href="#" data-view="thoughts">Thoughts</a>
+        <a href="#" data-view="books">Books</a>
+        <a href="#" data-view="music">Music</a>
+        <a href="#" data-view="links">Links</a>
+        <a href="#" data-view="contact">Contact</a>
+      </nav>
 
       <div class="bottom">
         <div class="bottom-left">
@@ -53,17 +61,6 @@
             </div>
           </div>
         </div>
-        <nav class="site-nav">
-          <a href="#" data-view="now">Now</a>
-          <a href="#" data-view="projects">Work</a>
-          <a href="#" data-view="contact">Contact</a>
-          <a href="#" data-view="about">About</a>
-          <a href="#" data-view="essays">Essays</a>
-          <a href="#" data-view="thoughts">Thoughts</a>
-          <a href="#" data-view="books">Books</a>
-          <a href="#" data-view="music">Music</a>
-          <a href="#" data-view="links">Links</a>
-        </nav>
       </div>
 
       <!-- Books -->
@@ -109,14 +106,15 @@
       <!-- Shortcuts -->
       <div id="shortcuts-view" class="overlay-view">
         <div class="view-list">
-          <p><span class="shortcut-key">A</span><span class="view-meta"> — About</span></p>
-          <p><span class="shortcut-key">N</span><span class="view-meta"> — Now</span></p>
-          <p><span class="shortcut-key">E</span><span class="view-meta"> — Essays</span></p>
-          <p><span class="shortcut-key">T</span><span class="view-meta"> — Thoughts</span></p>
-          <p><span class="shortcut-key">W</span><span class="view-meta"> — Work</span></p>
-          <p><span class="shortcut-key">B</span><span class="view-meta"> — Books</span></p>
-          <p><span class="shortcut-key">L</span><span class="view-meta"> — Links</span></p>
-          <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
+          <p><span class="shortcut-key">1</span><span class="view-meta"> — Now</span></p>
+          <p><span class="shortcut-key">2</span><span class="view-meta"> — Work</span></p>
+          <p><span class="shortcut-key">3</span><span class="view-meta"> — About</span></p>
+          <p><span class="shortcut-key">4</span><span class="view-meta"> — Essays</span></p>
+          <p><span class="shortcut-key">5</span><span class="view-meta"> — Thoughts</span></p>
+          <p><span class="shortcut-key">6</span><span class="view-meta"> — Books</span></p>
+          <p><span class="shortcut-key">7</span><span class="view-meta"> — Music</span></p>
+          <p><span class="shortcut-key">8</span><span class="view-meta"> — Links</span></p>
+          <p><span class="shortcut-key">9</span><span class="view-meta"> — Contact</span></p>
           <p><span class="shortcut-key">M</span><span class="view-meta"> — Moon</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
           <p><span class="shortcut-key">Esc</span><span class="view-meta"> — Close</span></p>
@@ -380,7 +378,12 @@
         }
       }
 
-      const shortcuts = { b: 'books', n: 'now', e: 'essays', w: 'projects', c: 'contact', m: 'moon', a: 'about', t: 'thoughts', l: 'links' };
+      const shortcuts = {
+        '1': 'now', '2': 'projects', '3': 'about',
+        '4': 'essays', '5': 'thoughts', '6': 'books',
+        '7': 'music', '8': 'links', '9': 'contact',
+        m: 'moon'
+      };
       const view = shortcuts[e.key.toLowerCase()];
       if (view) openView(view);
     });

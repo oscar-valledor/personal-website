@@ -39,15 +39,11 @@ body {
   opacity: 1;
 }
 
-.top, .middle, .bottom {
+.top, .bottom {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   transition: opacity 500ms ease;
-}
-
-.middle {
-  display: none;
 }
 
 .bottom {
@@ -86,9 +82,39 @@ nav {
 
 .site-nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 2rem;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 0.6rem;
+  counter-reset: toc;
   transition: opacity 500ms ease;
+}
+
+.site-nav a {
+  border-bottom: none;
+  padding-bottom: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.site-nav a::before {
+  counter-increment: toc;
+  content: counter(toc, decimal-leading-zero);
+  opacity: 0.3;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: opacity 250ms ease;
+}
+
+.site-nav a:hover {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.site-nav a:hover::before {
+  opacity: 0.6;
 }
 
 a {
@@ -126,8 +152,8 @@ a:hover {
 }
 
 [data-view] .top,
-[data-view] .middle,
-[data-view] .bottom {
+[data-view] .bottom,
+[data-view] .site-nav {
   opacity: 0;
   pointer-events: none;
 }
@@ -346,14 +372,8 @@ a:hover {
     gap: 2rem;
   }
 
-  .bottom .site-nav {
-    order: -1;
-    flex-direction: column;
+  .site-nav {
     gap: 0.5rem;
-  }
-
-  .site-nav a {
-    border-bottom: none;
   }
 
   #about-view .view-list {
@@ -373,10 +393,6 @@ a:hover {
   #present {
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-  }
-
-  #quote {
-    max-width: 100%;
   }
 
   .view-footer {
