@@ -35,37 +35,80 @@ NOTES_DB = Path.home() / "Library/Group Containers/group.com.apple.notes/NoteSto
 CORE_DATA_EPOCH = datetime(2001, 1, 1, tzinfo=timezone.utc)
 
 
+def _read_varint(buf, pos):
+    """Read a protobuf varint, return (value, new_pos)."""
+    result = 0
+    shift = 0
+    while pos < len(buf):
+        b = buf[pos]
+        result |= (b & 0x7F) << shift
+        pos += 1
+        if not (b & 0x80):
+            break
+        shift += 7
+    return result, pos
+
+
 def extract_text_from_note_data(data):
-    """Extract plain text from Apple Notes protobuf/attributed string data."""
+    """Extract plain text from Apple Notes gzipped protobuf data.
+
+    The note body structure is: outer.field2.field3.field2 = UTF-8 text.
+    We navigate the protobuf fields to extract the text cleanly,
+    avoiding binary formatting metadata that follows it.
+    """
     if not data:
         return ""
     try:
-        # The note body is stored as a gzipped protobuf.
-        # We can extract readable text by decoding and filtering.
         import gzip
-        decompressed = gzip.decompress(data)
-        # Extract UTF-8 text fragments from the binary data
-        text = ""
-        i = 0
-        while i < len(decompressed):
-            byte = decompressed[i]
-            if 32 <= byte < 127 or byte in (10, 13):  # printable ASCII + newlines
-                text += chr(byte)
-            elif byte >= 128:
-                # Try to decode as UTF-8 multi-byte
-                for length in (4, 3, 2):
-                    if i + length <= len(decompressed):
-                        try:
-                            char = decompressed[i:i+length].decode('utf-8')
-                            text += char
-                            i += length - 1
+        buf = gzip.decompress(data)
+
+        # Navigate: skip outer field 1 (tag 08), enter field 2 (tag 12)
+        pos = 0
+        while pos < len(buf):
+            tag, pos = _read_varint(buf, pos)
+            field_num = tag >> 3
+            wire_type = tag & 0x07
+            if wire_type == 0:  # varint
+                _, pos = _read_varint(buf, pos)
+            elif wire_type == 2:  # length-delimited
+                length, pos = _read_varint(buf, pos)
+                if field_num == 2:
+                    # Enter outer field 2, parse its inner fields
+                    inner = buf[pos:pos + length]
+                    ipos = 0
+                    while ipos < len(inner):
+                        itag, ipos = _read_varint(inner, ipos)
+                        inum = itag >> 3
+                        iwire = itag & 0x07
+                        if iwire == 0:
+                            _, ipos = _read_varint(inner, ipos)
+                        elif iwire == 2:
+                            ilen, ipos = _read_varint(inner, ipos)
+                            if inum == 3:
+                                # Enter field 3, find subfield 2 = text
+                                sub = inner[ipos:ipos + ilen]
+                                spos = 0
+                                while spos < len(sub):
+                                    stag, spos = _read_varint(sub, spos)
+                                    snum = stag >> 3
+                                    swire = stag & 0x07
+                                    if swire == 0:
+                                        _, spos = _read_varint(sub, spos)
+                                    elif swire == 2:
+                                        slen, spos = _read_varint(sub, spos)
+                                        if snum == 2:
+                                            return sub[spos:spos + slen].decode('utf-8').strip()
+                                        spos += slen
+                                    else:
+                                        break
+                            ipos += ilen
+                        else:
                             break
-                        except (UnicodeDecodeError, ValueError):
-                            continue
-            i += 1
-        return text.strip()
+                pos += length
+            else:
+                break
+        return ""
     except Exception:
-        # Fallback: try raw decode
         try:
             return data.decode('utf-8', errors='ignore').strip()
         except Exception:
@@ -101,9 +144,8 @@ def get_thoughts():
                 n.ZMODIFICATIONDATE1 AS modified,
                 nd.ZDATA AS body
             FROM ZICCLOUDSYNCINGOBJECT n
-            LEFT JOIN ZICCLOUDSYNCINGOBJECT nd
+            LEFT JOIN ZICNOTEDATA nd
                 ON nd.ZNOTE = n.Z_PK
-                AND nd.ZTYPEUTI = 'com.apple.notes.richtext'
             WHERE n.ZTITLE1 = ?
                 AND n.ZMARKEDFORDELETION != 1
             ORDER BY n.ZMODIFICATIONDATE1 DESC
