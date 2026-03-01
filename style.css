@@ -159,6 +159,10 @@ a:hover {
   pointer-events: auto;
 }
 
+#about-view .view-list {
+  max-width: calc(50vw - 5vw);
+}
+
 #thoughts-view .view-list {
   flex: 1;
   overflow-y: auto;
@@ -331,6 +335,10 @@ a:hover {
 
   .site-nav a {
     border-bottom: none;
+  }
+
+  #about-view .view-list {
+    max-width: 100%;
   }
 
   .bottom-left {

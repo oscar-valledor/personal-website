@@ -1,29 +1,68 @@
 {
   "playlists": [
     {
-      "title": "Focus",
-      "url": "https://open.spotify.com"
+      "title": "Ambient",
+      "url": "https://open.spotify.com/playlist/4wuuffNv06GQrPX1BJmZQc"
     },
     {
-      "title": "Sunday Morning",
-      "url": "https://open.spotify.com"
+      "title": "Modern Obscure Music Selects",
+      "url": "https://open.spotify.com/playlist/3aZNMtdV6y7aXojrjIcPwB"
+    },
+    {
+      "title": "Architecture Of Ideas",
+      "url": "https://open.spotify.com/playlist/6aFf1cOeR6TVKrlMOQ4MXI"
     }
   ],
   "albums": [
     {
-      "title": "In Rainbows",
-      "artist": "Radiohead",
-      "url": "https://open.spotify.com"
+      "title": "A Hundred Days Off",
+      "artist": "Underworld",
+      "url": "https://open.spotify.com/album/5n192ghquuwEFORZEtNyLg"
     },
     {
-      "title": "Kind of Blue",
-      "artist": "Miles Davis",
-      "url": "https://open.spotify.com"
+      "title": "A Deeper Understanding",
+      "artist": "The War On Drugs",
+      "url": "https://open.spotify.com/album/4TkmrrpjlPoCPpGyDN3rkF"
+    },
+    {
+      "title": "Suntub",
+      "artist": "ML Buch",
+      "url": "https://open.spotify.com/album/6IjtDhIvMy3I8xORtWAVax"
+    },
+    {
+      "title": "All These Years",
+      "artist": "Phil Cook",
+      "url": "https://open.spotify.com/album/07mX9PM93vinRC50I2jNSb"
+    },
+    {
+      "title": "Jonatan",
+      "artist": "Yung Lean",
+      "url": "https://open.spotify.com/album/09N3Yw1yNAMNNXSUqnoV6l"
+    },
+    {
+      "title": "Tourist",
+      "artist": "St Germain",
+      "url": "https://open.spotify.com/album/0YqCvOMhp8enM01an9Nntj"
+    },
+    {
+      "title": "DAYTONA",
+      "artist": "Pusha T",
+      "url": "https://open.spotify.com/album/07bIdDDe3I3hhWpxU6tuBp"
+    },
+    {
+      "title": "To Pimp A Butterfly",
+      "artist": "Kendrick Lamar",
+      "url": "https://open.spotify.com/album/5uP9oyMK5lpzbB7K6UeT3X"
+    },
+    {
+      "title": "NEVER ENOUGH",
+      "artist": "Turnstile",
+      "url": "https://open.spotify.com/album/52yD51X7yDinwlg6tbCtpP"
     },
     {
       "title": "Blonde",
       "artist": "Frank Ocean",
-      "url": "https://open.spotify.com"
+      "url": "https://open.spotify.com/album/3mH6qwIy9crq0I9YQbOuDf"
     }
   ]
 }
