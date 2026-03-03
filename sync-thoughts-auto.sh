@@ -2,6 +2,11 @@
 # Auto-sync thoughts from Apple Notes → thoughts.json → GitHub
 # Triggered by LaunchAgent when Notes database changes.
 # Includes 5-minute debounce to avoid running too frequently.
+#
+# Uses Homebrew git/python3 explicitly — Apple's /usr/bin/git is blocked
+# by macOS TCC when launchd tries to access iCloud Drive paths.
+
+export PATH="/opt/homebrew/bin:$PATH"
 
 REPO_DIR="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Developments/personal-website"
 LOCK_FILE="/tmp/sync-thoughts.lock"
@@ -30,7 +35,8 @@ if git diff --quiet thoughts.json 2>/dev/null; then
   exit 0
 fi
 
-# Commit and push
+# Commit and push (pull --rebase first in case remote is ahead from other syncs)
 git add thoughts.json
 git commit -m "sync: update thoughts from Apple Notes"
+git pull --rebase
 git push
