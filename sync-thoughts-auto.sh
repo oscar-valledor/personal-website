@@ -35,8 +35,12 @@ if git diff --quiet thoughts.json 2>/dev/null; then
   exit 0
 fi
 
-# Commit and push (pull --rebase first in case remote is ahead from other syncs)
+# Commit and push
+# Stash other changes first — pull --rebase fails with a dirty working tree
+# (e.g. books.json updated by GitHub Actions, uncommitted CLAUDE.md edits)
 git add thoughts.json
 git commit -m "sync: update thoughts from Apple Notes"
+git stash --quiet
 git pull --rebase
+git stash pop --quiet 2>/dev/null
 git push

@@ -172,6 +172,8 @@ tree.png / .svg         — Illustration used in Now view
 
 ## Design system
 
+**This project has its own design system that overrides the global brand guidelines.** Do not apply the global `~/.claude/rules/brand-guidelines.md` here — follow the rules below instead.
+
 ### Philosophy
 
 Achromatic. Serif. Text-driven. The design communicates through restraint — what's removed matters more than what's added. Think of it as typography + whitespace + opacity. Nothing else.
