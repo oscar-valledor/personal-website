@@ -86,10 +86,11 @@ All views are overlays toggled through a single mechanism:
 1. `page.dataset.view = 'name'` opens a view
 2. CSS selectors `[data-view="X"] #X-view` set `opacity: 1` and `pointer-events: auto`
 3. When a view is open, `.top`, `.bottom`, and `.site-nav` fade to `opacity: 0`
-4. `.view-title` appears top-left showing the view name
+4. `.view-title` appears top-left showing the view name (clickable to close)
 5. `delete page.dataset.view` closes the current view
+6. All overlay views have `role="dialog"` and `aria-label` for accessibility
 
-The `openView(name)` function acts as a toggle — calling it with the already-active view closes it.
+The `openView(name)` function acts as a toggle — calling it with the already-active view closes it. Views can be closed by clicking the view title (top-left), the "Close" link (bottom-right), or pressing Escape.
 
 **All views:**
 
@@ -152,7 +153,7 @@ music.json              — Playlists + albums with Spotify URLs
 thoughts.json           — Short-form thoughts (auto-synced from Apple Notes)
 links.json              — Bookmarked sites (exists as data, not yet rendered dynamically)
 
-sync-books.js           — Goodreads RSS → books.json (Node.js, runs in GitHub Actions)
+sync-books.js           — Goodreads RSS → books.json (Node.js, runs in GitHub Actions, decodes HTML entities)
 sync-thoughts.py        — Apple Notes DB → thoughts.json (Python, local macOS)
 sync-thoughts-auto.sh   — Debounced wrapper for sync-thoughts.py (LaunchAgent trigger)
 
@@ -173,6 +174,8 @@ tree.png / .svg         — Illustration used in Now view
 ## Design system
 
 **This project has its own design system that overrides the global brand guidelines.** Do not apply the global `~/.claude/rules/brand-guidelines.md` here — follow the rules below instead.
+
+Canonical spec maintained in `brand-guidelines/achromatic-serif/guidelines.md`.
 
 ### Philosophy
 
@@ -210,8 +213,8 @@ This is the main visual hierarchy tool. Size and colour don't change.
 | Level | Opacity | Usage |
 |-------|---------|-------|
 | Primary | `1` | Main text, links, titles |
-| Secondary | `0.4` | `.view-meta` — descriptions, dates, subtitles |
-| Tertiary | `0.3` | Nav counters (`::before`), thought numbers |
+| Secondary | `0.55` | `.view-meta` — descriptions, dates, subtitles |
+| Tertiary | `0.4` | Nav counters (`::before`), thought numbers, separators |
 
 ### Spacing
 
@@ -237,7 +240,9 @@ a {
 a:hover { opacity: 0.35; }
 ```
 
-Exception: `.copyright` and `.site-nav a` have no `border-bottom`.
+Exception: `.copyright`, `.site-nav a`, and `.view-title` have no `border-bottom`.
+
+All interactive elements have `:focus-visible` styles for keyboard accessibility. Links get `outline: 1px solid; outline-offset: 2px`. Nav items get the same shift + opacity as hover.
 
 ### Transitions & animations
 
@@ -255,7 +260,7 @@ Exception: `.copyright` and `.site-nav a` have no `border-bottom`.
 
 ### Navigation (Table of Contents)
 
-The site nav is a vertical list with CSS counters (`counter-reset: toc` / `counter-increment: toc`). Numbers are `decimal-leading-zero` (01, 02, ...). Counter opacity is `0.3`, brightens to `0.6` on hover. Items shift right `4px` on hover.
+The site nav is a vertical list with CSS counters (`counter-reset: toc` / `counter-increment: toc`). Numbers are `decimal-leading-zero` (01, 02, ...). Counter opacity is `0.4`, brightens to `0.65` on hover. Items shift right `4px` on hover.
 
 ### View footers
 
@@ -276,8 +281,8 @@ Every view has a `.view-footer` with a short poetic label on the left and a "Clo
 
 Single breakpoint: `600px`.
 
-**Desktop (> 600px):** Viewport-locked, `overflow: hidden`, full flexbox layout.
-**Mobile (≤ 600px):** Scrolls naturally. Bottom section stacks vertically. Nav gap tightens. Present bar wraps. About view goes full-width. View footer stacks. Now tree becomes 100% width.
+**Desktop (> 600px):** Viewport-locked, `overflow: hidden`, full flexbox layout. View lists have `overflow-y: auto` for internal scrolling when content exceeds viewport.
+**Mobile (≤ 600px):** Scrolls naturally. Bottom section stacks vertically. Nav items have padding for touch targets. Present bar wraps. About view goes full-width. View footer stacks. Now tree becomes 100% width.
 
 ### What NOT to use
 
@@ -510,7 +515,7 @@ The site is intentionally simple but designed to grow through repetition of patt
 
 When making changes, check:
 
-- [ ] Does the new element follow the opacity hierarchy (`1` / `0.4` / `0.3`)?
+- [ ] Does the new element follow the opacity hierarchy (`1` / `0.55` / `0.4`)?
 - [ ] Is any emphasis done with italics (never bold)?
 - [ ] Are transitions in the 250–500ms range with `ease` timing?
 - [ ] Does the mobile layout work at ≤ 600px?

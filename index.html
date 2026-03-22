@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oscar Valledor</title>
+    <meta name="description" content="Oscar Valledor — Architecture of Ideas. Based in Barcelona." />
     <link rel="icon" type="image/png" href="favicon.png" />
 
     <meta property="og:title" content="Oscar Valledor" />
@@ -35,7 +36,7 @@
       <div class="top">
         <span>Oscar Valledor - <em>Architecture of Ideas</em></span>
       </div>
-      <span class="view-title"></span>
+      <a href="#" class="view-title"></a>
 
       <nav class="site-nav">
         <a href="#" data-view="now">Now</a>
@@ -65,7 +66,7 @@
       </div>
 
       <!-- Books -->
-      <div id="books-view" class="overlay-view">
+      <div id="books-view" class="overlay-view" role="dialog" aria-label="Books">
         <div class="view-list"></div>
         <div class="view-footer">
           <span id="books-count"></span>
@@ -74,7 +75,7 @@
       </div>
 
       <!-- Projects -->
-      <div id="projects-view" class="overlay-view">
+      <div id="projects-view" class="overlay-view" role="dialog" aria-label="Work">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>The garden.</span>
@@ -83,7 +84,7 @@
       </div>
 
       <!-- Writing -->
-      <div id="essays-view" class="overlay-view">
+      <div id="essays-view" class="overlay-view" role="dialog" aria-label="Essays">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Long form.</span>
@@ -92,7 +93,7 @@
       </div>
 
       <!-- Contact -->
-      <div id="contact-view" class="overlay-view">
+      <div id="contact-view" class="overlay-view" role="dialog" aria-label="Contact">
         <div class="view-list">
           <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a></p>
           <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
@@ -105,7 +106,7 @@
       </div>
 
       <!-- Shortcuts -->
-      <div id="shortcuts-view" class="overlay-view">
+      <div id="shortcuts-view" class="overlay-view" role="dialog" aria-label="Keyboard shortcuts">
         <div class="view-list">
           <p><span class="shortcut-key">1</span><span class="view-meta"> — Now</span></p>
           <p><span class="shortcut-key">2</span><span class="view-meta"> — Work</span></p>
@@ -127,7 +128,7 @@
       </div>
 
       <!-- Colophon -->
-      <div id="colophon-view" class="overlay-view">
+      <div id="colophon-view" class="overlay-view" role="dialog" aria-label="Colophon">
         <div class="view-list">
           <p>Built with HTML, CSS, and vanilla JavaScript.</p>
           <p>Typeset in Times New Roman.</p>
@@ -144,7 +145,7 @@
       </div>
 
       <!-- Moon -->
-      <div id="moon-view" class="overlay-view">
+      <div id="moon-view" class="overlay-view" role="dialog" aria-label="Moon phase">
         <div class="view-list">
           <p id="moon-phase"></p>
           <p id="moon-detail" class="view-meta"></p>
@@ -156,7 +157,7 @@
       </div>
 
       <!-- Konami -->
-      <div id="konami-view" class="overlay-view">
+      <div id="konami-view" class="overlay-view" role="dialog" aria-label="Secret">
         <div class="view-list">
           <p>You found it.</p>
           <p>Most things worth finding aren't indexed.</p>
@@ -169,7 +170,7 @@
       </div>
 
       <!-- About -->
-      <div id="about-view" class="overlay-view">
+      <div id="about-view" class="overlay-view" role="dialog" aria-label="About">
         <div class="view-list">
           <p>I studied Business at UPF.</p>
           <p>I founded <a href="https://projectlobster.com" target="_blank" rel="noopener noreferrer">Project Lobster</a> when I was 23. It was acquired by <a href="https://www.aceandtate.com" target="_blank" rel="noopener noreferrer">Ace & Tate</a> nine years later.</p>
@@ -185,7 +186,7 @@
       </div>
 
       <!-- Music -->
-      <div id="music-view" class="overlay-view">
+      <div id="music-view" class="overlay-view" role="dialog" aria-label="Music">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Worth listening to.</span>
@@ -194,7 +195,7 @@
       </div>
 
       <!-- Links -->
-      <div id="links-view" class="overlay-view">
+      <div id="links-view" class="overlay-view" role="dialog" aria-label="Links">
         <div class="view-list">
           <p><a href="https://fs.blog" target="_blank" rel="noopener noreferrer">Farnam Street</a><span class="view-meta"> — Clear thinking and decision-making</span></p>
           <p><a href="https://patrickcollison.com" target="_blank" rel="noopener noreferrer">Patrick Collison</a><span class="view-meta"> — Bookmarks, questions, and fast</span></p>
@@ -212,7 +213,7 @@
       </div>
 
       <!-- Thoughts -->
-      <div id="thoughts-view" class="overlay-view">
+      <div id="thoughts-view" class="overlay-view" role="dialog" aria-label="Thoughts">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Short form.</span>
@@ -221,14 +222,14 @@
       </div>
 
       <!-- Now -->
-      <div id="now-view" class="overlay-view" data-updated="2026-02-26">
+      <div id="now-view" class="overlay-view" role="dialog" aria-label="Now" data-updated="2026-02-26">
         <div class="now-body">
           <div class="view-list">
             <p>Based in Barcelona.<br>
             Interested in consumer, artificial intelligence &amp; health.</p>
             <p>Exploratory phase. <em>Planting seeds.</em></p>
           </div>
-          <img src="tree.png" class="now-tree" alt="" aria-hidden="true">
+          <img src="tree.png" class="now-tree" alt="Tree illustration" aria-hidden="true">
         </div>
         <div class="view-footer">
           <span id="now-updated"></span>
@@ -247,6 +248,10 @@
 
     // — View system —
     const viewTitleEl = document.querySelector('.view-title');
+    viewTitleEl.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeView();
+    });
     const viewTitleMap = {
       books: 'Books', projects: 'Work', essays: 'Essays', now: 'Now',
       contact: 'Contact', about: 'About', music: 'Music', links: 'Links',
@@ -407,7 +412,7 @@
 
       const sections = [
         { label: 'Currently reading', items: data.currentlyReading },
-        { label: null, items: data.read },
+        { label: 'Read', items: data.read },
       ];
 
       for (const section of sections) {
