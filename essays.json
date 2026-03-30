@@ -1,9 +1,12 @@
 {
   "posts": [
     {
-      "title": "Simplicity is a strategy.",
-      "slug": "simplicity-is-a-strategy",
-      "date": "February 2026"
+      "title": "Good Neighbors: Relearning How to Live Together",
+      "slug": "good-neighbors",
+      "author": "Willow Defebaugh",
+      "date": "April 2025",
+      "readingTime": "4 min",
+      "source": "https://atmos.earth/ecological-wisdom/overview-isolation-good-neighbors/"
     },
     {
       "title": "Taste Test: Encrusting the Tortoise",
@@ -12,6 +15,11 @@
       "date": "February 2026",
       "readingTime": "18 min",
       "source": "https://anenfantterrible.substack.com/p/taste-test-encrusting-the-tortoise"
+    },
+    {
+      "title": "Simplicity is a strategy.",
+      "slug": "simplicity-is-a-strategy",
+      "date": "February 2026"
     },
     {
       "title": "Cities and Ambition",
