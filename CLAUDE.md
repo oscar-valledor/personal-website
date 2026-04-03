@@ -143,7 +143,6 @@ essay.css               — Override for essay pages (enables scrolling, sets es
 present.js              — Live clock, geolocation, reverse geocode, moon phase
 
 essays/                 — Individual essay HTML pages (standalone documents)
-  ├── simplicity-is-a-strategy.html
   └── cities-and-ambition.html
 
 books.json              — Goodreads sync data (auto-updated daily)
