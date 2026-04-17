@@ -1,12 +1,6 @@
 {
-  "lastUpdated": "2026-04-16",
+  "lastUpdated": "2026-04-17",
   "currentlyReading": [
-    {
-      "title": "Flatland: A Romance of Many Dimensions",
-      "author": "Edwin A. Abbott",
-      "url": "https://www.goodreads.com/book/show/433567",
-      "rating": 0
-    },
     {
       "title": "A Brief History of Time",
       "author": "Stephen W. Hawking",
@@ -15,6 +9,12 @@
     }
   ],
   "read": [
+    {
+      "title": "Flatland: A Romance of Many Dimensions",
+      "author": "Edwin A. Abbott",
+      "url": "https://www.goodreads.com/book/show/433567",
+      "rating": 4
+    },
     {
       "title": "Rocket Fuel: The One Essential Combination That Will Get You More of What You Want from Your Business",
       "author": "Gino Wickman",
