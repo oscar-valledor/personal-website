@@ -95,9 +95,11 @@
       <!-- Contact -->
       <div id="contact-view" class="overlay-view" role="dialog" aria-label="Contact">
         <div class="view-list">
-          <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a></p>
-          <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-          <p><a href="#" id="email-link">Email</a></p>
+          <p style="margin-bottom: 1rem;">I read every message. Replies within a week.</p>
+          <p><a href="#" id="email-link">Email</a><span class="view-meta"> — anything substantive</span></p>
+          <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="view-meta"> — work</span></p>
+          <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a><span class="view-meta"> — life</span></p>
+          <p style="margin-top: 1rem;">Especially keen to hear from people building in AI or consumer.</p>
         </div>
         <div class="view-footer">
           <span>Get in touch.</span>
@@ -656,6 +658,7 @@
       var a = 'ovalledor', b = 'gmail.com';
       var el = document.getElementById('email-link');
       el.href = 'mailto:' + a + '@' + b;
+      el.textContent = a + '@' + b;
     })();
 
   </script>
