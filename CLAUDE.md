@@ -61,7 +61,7 @@ Then open `http://localhost:8081`. There is no build step, no bundler, no framew
 
 ### Core principle
 
-Everything is a single-page app rendered from one `index.html`. No frameworks, no build tools, no dependencies in production. The only external runtime resources are Google Analytics and two APIs (OpenStreetMap Nominatim for reverse geocoding, Open-Meteo for weather — currently disabled).
+Everything is a single-page app rendered from one `index.html`. No frameworks, no build tools, no dependencies in production. The only external runtime resources are Google Analytics and the OpenStreetMap Nominatim API (reverse geocoding). Open-Meteo (weather) is currently disabled and removed from the CSP; re-add the connect-src entry when re-enabling it.
 
 ### Page structure
 
@@ -88,9 +88,10 @@ All views are overlays toggled through a single mechanism:
 3. When a view is open, `.top`, `.bottom`, and `.site-nav` fade to `opacity: 0`
 4. `.view-title` appears top-left showing the view name (clickable to close)
 5. `delete page.dataset.view` closes the current view
-6. All overlay views have `role="dialog"` and `aria-label` for accessibility
+6. All overlay views have `role="dialog"`, `aria-modal="true"`, `aria-label`, and `tabindex="-1"`; opening a view moves focus into the dialog, closing returns it to the trigger
+7. Closed overlays, faded page chrome, and the view title are `visibility: hidden` (delayed past the fade) so they leave the keyboard tab order — opacity alone does not remove them
 
-The `openView(name)` function acts as a toggle — calling it with the already-active view closes it. Views can be closed by clicking the view title (top-left), the "Close" link (bottom-right), or pressing Escape.
+The `openView(name)` function acts as a toggle — calling it with the already-active view closes it, and pressing the same trigger while its data is still loading cancels the pending open. Names not present in `viewTitleMap` are ignored (protects `?view=` deep links from blanking the page). If a view's JSON fetch fails, the overlay still opens with a plain "Couldn't load." line. Views can be closed by clicking the view title (top-left), the "Close" link (bottom-right), or pressing Escape.
 
 **All views:**
 
@@ -99,12 +100,12 @@ The `openView(name)` function acts as a toggle — calling it with the already-a
 | Now | Nav / key `1` | Hardcoded HTML | Has a tree illustration with grow animation |
 | Work | Nav / key `2` | `projects.json` | Filters out `hidden: true` projects |
 | About | Nav / key `3` | Hardcoded HTML | Max-width `50vw` on desktop |
-| Essays | Nav / key `4` | `essays.json` | Links to standalone HTML pages in `essays/` |
+| Essays | Nav / key `4` | `essays.json` | Curated reads by other authors; links to standalone HTML pages in `essays/` |
 | Thoughts | Nav / key `5` | `thoughts.json` | Numbered, separated by `<hr>` |
 | Books | Nav / key `6` | `books.json` | Sections: "Currently reading" + read list |
 | Music | Nav / key `7` | `music.json` | Sections: "Playlists" + "Albums" |
 | Links | Nav / key `8` | Hardcoded HTML | — |
-| Contact | Nav / key `9` | Hardcoded HTML | Email obfuscated via JS |
+| Contact | Nav / key `C` | Hardcoded HTML | Email obfuscated via JS |
 | Colophon | Click `©` | Hardcoded HTML | — |
 | Shortcuts | Key `?` | Hardcoded HTML | — |
 | Moon | Key `M` | Calculated | Moon phase algorithm |
@@ -124,6 +125,10 @@ Functions: `loadX()` fetches + caches → `renderX(data)` builds DOM.
 
 Existing data views: Books, Projects, Essays, Music, Thoughts.
 
+### Essays
+
+Essays (`essays.json` + `essays/`) are *curated reads by other authors* — Paul Graham, Kyla Scanlon, Douglas Brundage, etc. Each entry has an `author` and a `source` URL; the local copy is for archival + readability. Visual: pure achromatic-serif, text only.
+
 ### Staggered animations
 
 When a view opens, `staggerView(name)` assigns `transitionDelay` of `i * 50ms` to each child of `.view-list`. When closing, delays are reset to ensure instant fade-out.
@@ -139,32 +144,32 @@ When a view opens, `staggerView(name)` assigns `transitionDelay` of `i * 50ms` t
 ```
 index.html              — Single-page app: all views, all inline JS
 style.css               — All styles: layout, views, dark mode, mobile
-essay.css               — Override for essay pages (enables scrolling, sets essay layout)
+essay.css               — Long-form layout for essay pages
 present.js              — Live clock, geolocation, reverse geocode, moon phase
 
-essays/                 — Individual essay HTML pages (standalone documents)
-  └── cities-and-ambition.html
+essays/                 — Curated essays by other authors (standalone HTML pages)
+  └── cities-and-ambition.html, etc.
 
 books.json              — Goodreads sync data (auto-updated daily)
 projects.json           — Work/projects list (manual edits)
-essays.json             — Essay index with slug, author, date, readingTime, source
+essays.json             — Curated essays index: slug, author, date, readingTime, source
 music.json              — Playlists + albums with Spotify URLs
 thoughts.json           — Short-form thoughts (auto-synced from Apple Notes)
-links.json              — Bookmarked sites (exists as data, not yet rendered dynamically)
 
 sync-books.js           — Goodreads RSS → books.json (Node.js, runs in GitHub Actions, decodes HTML entities)
 sync-thoughts.py        — Apple Notes DB → thoughts.json (Python, local macOS)
-sync-thoughts-auto.sh   — Debounced wrapper for sync-thoughts.py (LaunchAgent trigger)
+sync-thoughts-auto.sh   — Debounced wrapper for sync-thoughts.py (LaunchAgent trigger; deployed copy lives at ~/.local/bin/ — keep both in sync)
 
 .github/workflows/
   └── sync-books.yml    — Daily at 08:00 UTC
 
 sitemap.xml             — Root + all essay pages
 robots.txt              — Standard allow-all + sitemap reference
-404.html                — Custom 404 page
+404.html                — Custom 404 page (root-absolute asset paths — GitHub Pages serves it for nested URLs too)
 CNAME                   — oscarvalledor.com
-favicon.png / .svg      — Favicon
-og-image.png / .svg     — Open Graph image
+README.md               — Repo readme
+favicon.png             — Favicon
+og-image.png            — Open Graph image
 tree.png / .svg         — Illustration used in Now view
 ```
 
@@ -269,12 +274,14 @@ Every view has a `.view-footer` with a short poetic label on the left and a "Clo
 |------|-------------|
 | Now | "Last updated {month year}" |
 | Work | "The garden." |
+| About | "Barcelona, 1994." |
 | Essays | "Long form." |
 | Thoughts | "Short form." |
 | Books | Count of books read |
 | Music | "Worth listening to." |
 | Links | "Worth bookmarking." |
 | Contact | "Get in touch." |
+| Shortcuts | "Keyboard shortcuts" |
 
 ### Responsive design
 
@@ -286,6 +293,8 @@ Single breakpoint: `600px`.
 ### What NOT to use
 
 Never: shadows, border-radius, gradients, icons, emoji, images (except tree.png and og-image), bold text, colour, grid layout, CSS variables, external fonts, component libraries.
+
+Heading elements (`h1`, `h2`) exist for document outline and SEO only — style.css resets them to render exactly as body text. Page and essay titles are `<h1>`; never style headings distinctly.
 
 ---
 
@@ -368,11 +377,13 @@ Never: shadows, border-radius, gradients, icons, emoji, images (except tree.png 
 
 1. **Create the HTML file** in `essays/your-slug.html`. Copy the structure from an existing essay. Key elements:
    - `<title>` format: `Essay Title — Oscar Valledor`
+   - `<meta name="description">` ("Title, by Author — an archived copy of the original essay.")
+   - Cross-domain `<link rel="canonical">` pointing at the original source URL (curated essays are archived copies — the canonical belongs to the author)
    - Links to `../style.css` and `../essay.css` (relative paths)
    - CSP meta tag (copy from existing)
    - Google Analytics snippet (copy from existing)
    - `.top` with site link and `← Essays` back-link to `../?view=essays`
-   - `.essay-header` with `.essay-title` (italic) and `.view-meta` (date/author)
+   - `.essay-header` with `.essay-title` as an `<h1>` (renders as body text — heading styles are reset) and `.view-meta` (date/author)
    - `.essay-body` with `<p>` tags
    - `.view-footer` (optional: link to original source)
 
@@ -426,7 +437,7 @@ Edit `music.json`. Two arrays: `playlists` (title + url) and `albums` (title + a
 
 ### Add a link
 
-The Links view is currently **hardcoded in HTML** inside `index.html`. `links.json` exists as a data file but is not yet dynamically rendered. To add a link, edit the HTML directly in the `#links-view` section. If you want to make it data-driven, follow the JSON-driven view pattern.
+The Links view is **hardcoded in HTML** inside `index.html` — edit the `#links-view` section directly. (A stale `links.json` used to exist alongside it; it was deleted after drifting out of sync. If the view ever becomes data-driven, recreate the JSON from the current HTML and follow the JSON-driven view pattern.)
 
 ---
 
@@ -434,13 +445,13 @@ The Links view is currently **hardcoded in HTML** inside `index.html`. `links.js
 
 ### Books (automated, GitHub Actions)
 
-`sync-books.js` fetches from Goodreads RSS using a user ID (`152827522`). Runs daily at 08:00 UTC via `.github/workflows/sync-books.yml`. Output: `books.json`.
+`sync-books.js` fetches from Goodreads RSS using a user ID (`152827522`). Runs daily at 08:00 UTC via `.github/workflows/sync-books.yml`. Output: `books.json`. The script refuses to overwrite `books.json` when the response isn't RSS or parses to zero books while the committed file has data — a 200-with-interstitial once wiped the shelf and had to be restored by hand.
 
 ### Thoughts (automated, local macOS)
 
-`sync-thoughts.py` reads the Apple Notes SQLite database for a note titled "Thoughts - Personal Website". `sync-thoughts-auto.sh` wraps it with a 5-minute debounce and auto-commits/pushes. Triggered by a LaunchAgent watching the Notes DB.
+`sync-thoughts.py` reads the Apple Notes SQLite database for a note titled "Thoughts - Personal Website". It aborts (exit 1) rather than publishing an empty list when a non-empty note fails to parse. `sync-thoughts-auto.sh` wraps it with a 5-minute debounce (waits out the window, so trailing edits always sync), a mutex against concurrent runs, and auto-commit/push with rebase-abort recovery. Failures log to `/tmp/sync-thoughts.log`. Triggered by a LaunchAgent watching the Notes DB.
 
-**Important:** The auto-sync script must live at `~/.local/bin/sync-thoughts-auto.sh` — not in iCloud Drive. macOS blocks `launchd` execution from iCloud paths.
+**Important:** The auto-sync script must live at `~/.local/bin/sync-thoughts-auto.sh` — not in iCloud Drive. macOS blocks `launchd` execution from iCloud paths. After editing the repo copy, copy it there.
 
 ---
 
@@ -457,11 +468,11 @@ The Links view is currently **hardcoded in HTML** inside `index.html`. `links.js
 
 ## Security
 
-- CSP meta tag restricts scripts, styles, images, connections, and frames
-- Email is obfuscated via two-part JS concatenation (never appears in HTML source)
-- `.gitignore` blocks `.DS_Store`, `.env`, `.env.*`, `node_modules/`, `*.log`
+- CSP meta tag restricts scripts, styles, images, and connections on every page (`frame-ancestors` is ignored in `<meta>` CSPs, so it is deliberately not declared — GitHub Pages can't send headers)
+- Email is assembled at runtime from reversed string halves — the address never appears as a literal or regex-matchable string in the source
+- `.gitignore` blocks `.DS_Store`, `.env`, `.env.*`, `node_modules/`, `*.log`, `.claude/settings.local.json`, `*.draft.md`
 
-When adding new external resources (APIs, CDNs), update the CSP `content` attribute in both `index.html` and any essay HTML files.
+When adding new external resources (APIs, CDNs), update the CSP `content` attribute in `index.html`, `404.html`, and every HTML file under `essays/`.
 
 ---
 

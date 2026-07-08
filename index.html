@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Oscar Valledor</title>
     <meta name="description" content="Oscar Valledor — Architecture of Ideas. Based in Barcelona." />
+    <link rel="canonical" href="https://oscarvalledor.com/" />
     <link rel="icon" type="image/png" href="favicon.png" />
 
     <meta property="og:title" content="Oscar Valledor" />
     <meta property="og:description" content="Architecture of Ideas" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://oscarvalledor.com" />
+    <meta property="og:url" content="https://oscarvalledor.com/" />
     <meta property="og:image" content="https://oscarvalledor.com/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Oscar Valledor" />
     <meta name="twitter:description" content="Architecture of Ideas" />
     <meta name="twitter:image" content="https://oscarvalledor.com/og-image.png" />
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://nominatim.openstreetmap.org https://api.open-meteo.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://nominatim.openstreetmap.org https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com;">
     <link rel="stylesheet" href="style.css" />
 
     <!-- Google Analytics -->
@@ -34,7 +35,7 @@
     <div class="page">
 
       <div class="top">
-        <span>Oscar Valledor - <em>Architecture of Ideas</em></span>
+        <h1>Oscar Valledor - <em>Architecture of Ideas</em></h1>
       </div>
       <a href="#" class="view-title"></a>
 
@@ -57,7 +58,7 @@
             <div id="present" aria-live="polite">
               <span id="present-city"></span>
               <span id="present-coords"></span>
-              <span id="present-time"></span>
+              <span id="present-time" aria-hidden="true"></span>
               <span id="present-weather"></span>
               <span id="present-moon"></span>
             </div>
@@ -66,7 +67,7 @@
       </div>
 
       <!-- Books -->
-      <div id="books-view" class="overlay-view" role="dialog" aria-label="Books">
+      <div id="books-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Books">
         <div class="view-list"></div>
         <div class="view-footer">
           <span id="books-count"></span>
@@ -75,7 +76,7 @@
       </div>
 
       <!-- Projects -->
-      <div id="projects-view" class="overlay-view" role="dialog" aria-label="Work">
+      <div id="projects-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Work">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>The garden.</span>
@@ -84,7 +85,7 @@
       </div>
 
       <!-- Writing -->
-      <div id="essays-view" class="overlay-view" role="dialog" aria-label="Essays">
+      <div id="essays-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Essays">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Long form.</span>
@@ -93,13 +94,13 @@
       </div>
 
       <!-- Contact -->
-      <div id="contact-view" class="overlay-view" role="dialog" aria-label="Contact">
+      <div id="contact-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Contact">
         <div class="view-list">
-          <p style="margin-bottom: 1rem;">I read every message. Replies within a week.</p>
+          <p>I read every message. Replies within a week.</p>
           <p><a href="#" id="email-link">Email</a><span class="view-meta"> — anything substantive</span></p>
           <p><a href="https://www.linkedin.com/in/oscarvalledor/" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="view-meta"> — work</span></p>
           <p><a href="https://instagram.com/oscarvalledor" target="_blank" rel="noopener noreferrer">Instagram</a><span class="view-meta"> — life</span></p>
-          <p style="margin-top: 1rem;">Especially keen to hear from people building in AI or consumer.</p>
+          <p>Especially keen to hear from people building in AI or consumer.</p>
         </div>
         <div class="view-footer">
           <span>Get in touch.</span>
@@ -108,7 +109,7 @@
       </div>
 
       <!-- Shortcuts -->
-      <div id="shortcuts-view" class="overlay-view" role="dialog" aria-label="Keyboard shortcuts">
+      <div id="shortcuts-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Keyboard shortcuts">
         <div class="view-list">
           <p><span class="shortcut-key">1</span><span class="view-meta"> — Now</span></p>
           <p><span class="shortcut-key">2</span><span class="view-meta"> — Work</span></p>
@@ -118,7 +119,7 @@
           <p><span class="shortcut-key">6</span><span class="view-meta"> — Books</span></p>
           <p><span class="shortcut-key">7</span><span class="view-meta"> — Music</span></p>
           <p><span class="shortcut-key">8</span><span class="view-meta"> — Links</span></p>
-          <p><span class="shortcut-key">9</span><span class="view-meta"> — Contact</span></p>
+          <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
           <p><span class="shortcut-key">M</span><span class="view-meta"> — Moon</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
           <p><span class="shortcut-key">Esc</span><span class="view-meta"> — Close</span></p>
@@ -130,7 +131,7 @@
       </div>
 
       <!-- Colophon -->
-      <div id="colophon-view" class="overlay-view" role="dialog" aria-label="Colophon">
+      <div id="colophon-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Colophon">
         <div class="view-list">
           <p>Built with HTML, CSS, and vanilla JavaScript.</p>
           <p>Typeset in Times New Roman.</p>
@@ -147,7 +148,7 @@
       </div>
 
       <!-- Moon -->
-      <div id="moon-view" class="overlay-view" role="dialog" aria-label="Moon phase">
+      <div id="moon-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Moon phase">
         <div class="view-list">
           <p id="moon-phase"></p>
           <p id="moon-detail" class="view-meta"></p>
@@ -159,7 +160,7 @@
       </div>
 
       <!-- Konami -->
-      <div id="konami-view" class="overlay-view" role="dialog" aria-label="Secret">
+      <div id="konami-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Secret">
         <div class="view-list">
           <p>You found it.</p>
           <p>Most things worth finding aren't indexed.</p>
@@ -172,7 +173,7 @@
       </div>
 
       <!-- About -->
-      <div id="about-view" class="overlay-view" role="dialog" aria-label="About">
+      <div id="about-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="About">
         <div class="view-list">
           <p>I studied Business at UPF.</p>
           <p>I founded <a href="https://projectlobster.com" target="_blank" rel="noopener noreferrer">Project Lobster</a> when I was 23. It was acquired by <a href="https://www.aceandtate.com" target="_blank" rel="noopener noreferrer">Ace & Tate</a> nine years later.</p>
@@ -188,7 +189,7 @@
       </div>
 
       <!-- Music -->
-      <div id="music-view" class="overlay-view" role="dialog" aria-label="Music">
+      <div id="music-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Music">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Worth listening to.</span>
@@ -197,14 +198,17 @@
       </div>
 
       <!-- Links -->
-      <div id="links-view" class="overlay-view" role="dialog" aria-label="Links">
+      <div id="links-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Links">
         <div class="view-list">
           <p><a href="https://fs.blog" target="_blank" rel="noopener noreferrer">Farnam Street</a><span class="view-meta"> — Clear thinking and decision-making</span></p>
           <p><a href="https://patrickcollison.com" target="_blank" rel="noopener noreferrer">Patrick Collison</a><span class="view-meta"> — Bookmarks, questions, and fast</span></p>
           <p><a href="https://paulgraham.com" target="_blank" rel="noopener noreferrer">Paul Graham</a><span class="view-meta"> — Essays on startups and life</span></p>
-          <p><a href="https://www.ribbonfarm.com" target="_blank" rel="noopener noreferrer">Ribbonfarm</a><span class="view-meta"> — Longform thinking</span></p>
-          <p><a href="https://sive.rs" target="_blank" rel="noopener noreferrer">Derek Sivers</a><span class="view-meta"> — Short, useful ideas</span></p>
           <p><a href="https://nav.al/" target="_blank" rel="noopener noreferrer">Naval Ravikant</a><span class="view-meta"> — Wealth, happiness, and philosophy</span></p>
+          <p><a href="https://jamesclear.com/3-2-1" target="_blank" rel="noopener noreferrer">James Clear</a><span class="view-meta"> — 3-2-1, a short weekly newsletter on habits</span></p>
+          <p><a href="https://open.spotify.com/show/4JH4tybY1zX6e5hjCwU6gF" target="_blank" rel="noopener noreferrer">Dwarkesh Podcast</a><span class="view-meta"> — Long-form interviews on AI and progress</span></p>
+          <p><a href="https://open.spotify.com/show/3UrDMnInpYog0hc2QCHAXk" target="_blank" rel="noopener noreferrer">Training Data</a><span class="view-meta"> — Sequoia's conversations with AI builders</span></p>
+          <p><a href="https://open.spotify.com/show/75ao7vbM0cH7SKIsyYN3iZ" target="_blank" rel="noopener noreferrer">Itnig Podcast</a><span class="view-meta"> — Startup stories from Barcelona</span></p>
+          <p><a href="https://open.spotify.com/show/3j2KMcZTtgTNBKwtZBMHvl" target="_blank" rel="noopener noreferrer">20VC</a><span class="view-meta"> — Venture capital, founders, and funding</span></p>
           <p><a href="https://www.youtube.com/@veritasium" target="_blank" rel="noopener noreferrer">Veritasium</a><span class="view-meta"> — Science and engineering</span></p>
           <p><a href="https://www.youtube.com/@SabineHossenfelder" target="_blank" rel="noopener noreferrer">Sabine Hossenfelder</a><span class="view-meta"> — Physics without the hype</span></p>
         </div>
@@ -215,7 +219,7 @@
       </div>
 
       <!-- Thoughts -->
-      <div id="thoughts-view" class="overlay-view" role="dialog" aria-label="Thoughts">
+      <div id="thoughts-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Thoughts">
         <div class="view-list"></div>
         <div class="view-footer">
           <span>Short form.</span>
@@ -224,14 +228,14 @@
       </div>
 
       <!-- Now -->
-      <div id="now-view" class="overlay-view" role="dialog" aria-label="Now" data-updated="2026-05-06">
+      <div id="now-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Now" data-updated="2026-05-06">
         <div class="now-body">
           <div class="view-list">
             <p>Based in Barcelona.<br>
             Currently exploring artificial intelligence at the infrastructure &amp; application layers.</p>
             <p>If you're currently building or thinking of building in the space, don't hesitate to <a href="#" data-view="contact">reach out</a>.</p>
           </div>
-          <img src="tree.png" class="now-tree" alt="Tree illustration" aria-hidden="true">
+          <img src="tree.png" class="now-tree" alt="">
         </div>
         <div class="view-footer">
           <span id="now-updated"></span>
@@ -261,16 +265,45 @@
       moon: 'Moon', konami: '✦'
     };
 
+    let pendingView = null;
+    let lastFocus = null;
+
     function openView(name) {
+      if (!Object.prototype.hasOwnProperty.call(viewTitleMap, name)) return;
       if (page.dataset.view === name) { closeView(); return; }
+      // Pressing the same trigger again while its data is still loading
+      // cancels the pending open — preserves the toggle behaviour.
+      if (pendingView === name) { pendingView = null; return; }
+      pendingView = name;
       loadView(name).then(function() {
-        staggerView(name);
-        viewTitleEl.textContent = viewTitleMap[name] || name;
-        // Force reflow so dynamically-created items settle at opacity:0
-        // before the transition to opacity:1 triggers via data-view
-        void document.body.offsetHeight;
-        page.dataset.view = name;
+        if (pendingView !== name) return;
+        pendingView = null;
+        showView(name);
+      }).catch(function() {
+        if (pendingView !== name) return;
+        pendingView = null;
+        const list = document.querySelector('#' + name + '-view .view-list');
+        if (list) {
+          list.innerHTML = '';
+          const p = document.createElement('p');
+          p.className = 'view-meta';
+          p.textContent = 'Couldn’t load. Try again later.';
+          list.appendChild(p);
+        }
+        showView(name);
       });
+    }
+
+    function showView(name) {
+      staggerView(name);
+      viewTitleEl.textContent = viewTitleMap[name];
+      // Force reflow so dynamically-created items settle at opacity:0
+      // before the transition to opacity:1 triggers via data-view
+      void document.body.offsetHeight;
+      lastFocus = document.activeElement;
+      page.dataset.view = name;
+      const overlay = document.getElementById(name + '-view');
+      if (overlay) overlay.focus();
     }
 
     function staggerView(name) {
@@ -285,6 +318,7 @@
     }
 
     function closeView() {
+      pendingView = null;
       const viewName = page.dataset.view;
       if (viewName) {
         const overlay = document.getElementById(viewName + '-view');
@@ -297,6 +331,8 @@
       }
       delete page.dataset.view;
       viewTitleEl.textContent = '';
+      if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+      lastFocus = null;
     }
 
     document.querySelectorAll('[data-view]').forEach(el => {
@@ -391,8 +427,8 @@
       const shortcuts = {
         '1': 'now', '2': 'projects', '3': 'about',
         '4': 'essays', '5': 'thoughts', '6': 'books',
-        '7': 'music', '8': 'links', '9': 'contact',
-        m: 'moon'
+        '7': 'music', '8': 'links',
+        c: 'contact', m: 'moon'
       };
       const view = shortcuts[e.key.toLowerCase()];
       if (view) openView(view);
@@ -604,15 +640,11 @@
     // — Now —
     (function () {
       const d = new Date(document.getElementById('now-view').dataset.updated);
-      const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      const label = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
       document.getElementById('now-updated').textContent = `Last updated ${label}`;
     })();
 
     // — Moon —
-    document.getElementById('present-moon').addEventListener('click', function() {
-      openView('moon');
-    });
-
     function renderMoon() {
       const knownNewMoon = new Date('2000-01-06T18:14:00Z');
       const lunarCycle = 29.53059;
@@ -635,12 +667,12 @@
 
       document.getElementById('moon-phase').textContent = phaseName;
       document.getElementById('moon-detail').textContent =
-        `Day ${Math.floor(dayInCycle) + 1} of 30 · Full moon in ${Math.ceil(daysToFull)} day${Math.ceil(daysToFull) === 1 ? '' : 's'} · New moon in ${Math.ceil(daysToNew)} days`;
+        `Day ${Math.floor(dayInCycle) + 1} of 30 · Full moon in ${Math.ceil(daysToFull)} day${Math.ceil(daysToFull) === 1 ? '' : 's'} · New moon in ${Math.ceil(daysToNew)} day${Math.ceil(daysToNew) === 1 ? '' : 's'}`;
     }
 
     // — Auto-open view from URL param (e.g. ?view=essays) —
     (function() {
-      const v = new URLSearchParams(window.location.search).get('view');
+      const v = (new URLSearchParams(window.location.search).get('view') || '').toLowerCase();
       if (v) openView(v);
     })();
 
@@ -654,11 +686,15 @@
     }
 
     // — Email obfuscation —
+    // Halves are stored reversed so the address never appears as a
+    // literal (or regex-matchable) string anywhere in the page source.
     (function() {
-      var a = 'ovalledor', b = 'gmail.com';
+      var a = 'rodellavo'.split('').reverse().join('');
+      var b = 'moc.liamg'.split('').reverse().join('');
       var el = document.getElementById('email-link');
-      el.href = 'mailto:' + a + '@' + b;
-      el.textContent = a + '@' + b;
+      var addr = a + '@' + b;
+      el.href = 'mailto:' + addr;
+      el.textContent = addr;
     })();
 
   </script>
