@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Second Brain — Oscar Valledor</title>
+    <meta name="description" content="What a second brain is, how it works, and how to build your own with Claude Code in one paste." />
+    <link rel="canonical" href="https://oscarvalledor.com/blog/the-second-brain.html" />
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com;">
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../essay.css" />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5J88H59YB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Q5J88H59YB');
+    </script>
+
+    <script type="importmap">
+      { "imports": { "three": "./three.subset.min.js" } }
+    </script>
+  </head>
+  <body>
+    <div class="page is-ready">
+
+      <div class="top">
+        <a href="/" class="copyright">Oscar Valledor - <em>Architecture of Ideas</em></a>
+        <nav><a href="../?view=blog">← Blog</a></nav>
+      </div>
+
+      <div class="essay-header">
+        <h1 class="essay-title">The Second Brain</h1>
+        <p class="view-meta">July 2026 — 5 min read</p>
+      </div>
+
+      <div class="essay-body">
+        <p>I talk to an AI most days, and for months one thing nagged at me. It is plainly intelligent — it writes, it reasons, it catches what I would have missed. And every morning it wakes up knowing nothing about me. Whatever I explained yesterday is gone. I keep re-introducing my work, my projects, the people around me: a brilliant colleague with no memory of ever having met me.</p>
+
+        <p>The obvious fix is to hand it everything — your files, your notes, your saved articles — and let it sort them out. I tried that for months. A pile of documents is not knowledge. The assistant wades through it, answers a little differently each time, and nothing accumulates. The problem was never how much I could feed it. It was that no one was doing the work in between.</p>
+
+        <p>That work has a name, though we rarely do it: you read something, understand it, write down what it means, and connect it to what you already knew. It is what a good researcher does. It is also what everyone abandons, because it is slow and there is never an evening for it. So the knowledge stays a pile, and the assistant keeps starting from zero.</p>
+
+        <p>Andrej Karpathy <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener noreferrer">sketched a way out</a> in April 2026 — a few pages of notes and a folder layout. What if the machine did that in-between work itself? Not answering on demand, but sitting in the background keeping an understanding of what you know: reading what you give it, summarising it, noticing that today's article argues with one you saved in March and writing that down, keeping the whole thing tidy without being asked.</p>
+
+        <p>That is a second brain. Not a notes app and not a chatbot, but a wiki your AI keeps — as much for itself as for you — that grows denser every time you feed it. Mine holds 232 pages now: the things I have read, the ideas that kept recurring, the people and companies behind them, joined by more than nine thousand links. I wrote none of them. I dropped things in and talked about them; the machine did the rest.</p>
+
+        <p>Two things still surprise me. It works without me — I need not be at my desk for it to read a transcript and file it. And it finds connections I could not: a line from a podcast that answers a question a book raised months earlier. No person holds that much at once; the machine does, and cheaply, because the filing that bores us does not bore it.</p>
+
+        <p>The deeper point is what it does to the assistant. A second brain is a companion tool. It hands your AI what you know in a shape built for a machine to use — digested, structured, cross-referenced — instead of the raw human sprawl it usually has to fight through. The same model, given one, is simply better at helping you. That is what makes it a new primitive: not a place to keep notes, but a memory that makes the intelligence you already reach for sharper.</p>
+
+        <p>Seen as memory, the uses spread out. Keep one for your reading, another for your work, one for a single project. A company can build one that amounts to a digital copy of itself — what it is making, what it has decided, what each customer needs — and point its agents at that, so they work on their own because they finally know where they stand. At my scale it is quieter: I research, learn faster, and actually keep what I learn.</p>
+
+        <p>The mechanism is almost dull — three folders and a loop with four steps.</p>
+
+        <figure class="essay-figure">
+          <canvas id="brain-morph" aria-hidden="true" style="display:none"></canvas>
+          <figcaption class="view-meta" id="morph-stage">drop — file — connect — compound</figcaption>
+        </figure>
+
+        <p><em>Drop.</em> Anything worth keeping goes into a folder called raw/ — an article, a transcript, a note you typed on the train. Nothing in there is ever changed. It is your shelf of originals.</p>
+
+        <p><em>File.</em> You say <em>file it</em>, and the assistant reads the whole thing and tells you what it found, the way a person would. Then it writes a single summary page — where this sits against everything already there, not a re-run of the text.</p>
+
+        <p><em>Connect.</em> Recurring ideas get pages of their own, and so do the people and companies that keep appearing. Every page links to the ones it touches, which is what turns the collection into a web instead of a stack.</p>
+
+        <p><em>Compound.</em> When a new source contradicts an old one, the disagreement gets written down instead of lost. When you ask a question, the answer draws on everything at once — and if it is a good answer, it gets filed too. The longer you feed it, the sharper it gets.</p>
+
+        <h2>Do I need to be technical?</h2>
+
+        <p>No. The one thing you install is <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a>; the desktop app is fine. You never write code and never see any — you talk to it in plain sentences, in whatever language you think in. The only file you ever touch is the short rules file at the top of the folder, which you change by asking: <em>stop making a page for every minor name</em>, or <em>check with me before filing anything in Spanish</em>. Two promises are built into those rules — it never touches your originals, and every claim in the wiki has to trace back to something you gave it, or it does not get written.</p>
+
+        <h2>Build your own</h2>
+
+        <p>Install <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a>, open it, and paste this. That is the whole install.</p>
+
+        <pre class="prompt-block" id="install-prompt">Set up my second brain. Follow these steps exactly.
+
+Rule for every step: never overwrite, replace, or delete anything
+that already exists. When in doubt, stop and ask me.
+
+1. Pick the location. If the current folder is empty or clearly meant
+   for this (a name like "second-brain", "brain", "notes"), build here.
+   Otherwise create a folder called "second-brain" in my home directory.
+   If that folder already exists and has files in it, stop and ask me
+   where to build instead.
+
+2. Create this structure, creating only what is missing:
+
+   raw/
+   wiki/sources/
+   wiki/concepts/
+   wiki/entities/
+   wiki/index.md   - heading "# Index" plus a line noting the wiki is empty
+   wiki/log.md     - heading "# Log" plus one entry:
+                     "## [today's date] bootstrap - second brain created"
+
+3. If a file called CLAUDE.md already exists at the root of that folder,
+   leave it untouched and tell me — do not replace or merge it. Otherwise
+   create it with exactly this content, between the markers (do not
+   include the marker lines):
+
+   ----- BEGIN CLAUDE.md -----
+   # My Second Brain - Operating Manual
+
+   This file is the schema. Any Claude session opened in this folder
+   follows it. It evolves: when a convention stops working, we change
+   it together.
+
+   ## What this is
+
+   A personal wiki that Claude maintains and I feed. I supply sources
+   and judgement; Claude does the reading, summarising, filing and
+   cross-linking. I never edit wiki pages by hand - if I want to,
+   the schema needs updating.
+
+   ## The three folders
+
+   - raw/ - I drop sources here. READ-ONLY for Claude: never modify,
+     rename or delete anything in it. It is the permanent original of
+     every source.
+   - wiki/ - Claude writes everything here: sources/ (one page per
+     ingested article, video or paper), concepts/ (named ideas that
+     recur across sources), entities/ (real people, companies,
+     products, tools). Plus index.md (table of contents - read it
+     first, always) and log.md (append-only history).
+   - CLAUDE.md - this file. We edit it together, by conversation.
+
+   ## Page rules
+
+   - Filenames: kebab-case, .md, unique across the whole wiki.
+   - One topic per page. Cross-link with [[wikilinks]].
+   - Pages grow by adding sections, never by overwriting. If a new
+     source contradicts an old claim, record the contradiction.
+   - CRITICAL: never invent facts or citations. Everything in the
+     wiki traces back to a file in raw/ or something I said.
+
+   ## How to ingest (when I say "file it")
+
+   1. Read the source completely.
+   2. Tell me the takeaways and what they connect to. Wait for my
+      reaction before writing anything.
+   3. Write one summary page in wiki/sources/ - how it relates to
+      what is already here, not a paraphrase.
+   4. Create or update the concept and entity pages it touches.
+      Link everything with [[wikilinks]].
+   5. Add new pages to wiki/index.md, one line each.
+   6. Append one line to wiki/log.md describing what happened.
+
+   ## How to answer questions
+
+   Read wiki/index.md first, follow links to the relevant pages,
+   answer citing pages by name. If the answer is worth keeping,
+   file it into the wiki too - good syntheses compound.
+
+   ## Evolving this schema
+
+   When a rule keeps getting in the way, propose a change to this
+   file and explain why. Never rewrite it unilaterally.
+   ----- END CLAUDE.md -----
+
+4. Do not install anything, and do not add any content to the wiki yet.
+
+5. Finish by telling me where the brain lives and how to feed it:
+   save any article, transcript or note as a file inside raw/ — or just
+   paste the text or a link to you and ask you to save it there — then
+   say "file it". Remind me to open Claude Code inside this folder from
+   now on, so the rules are always loaded.</pre>
+        <p class="prompt-actions"><a href="#" id="copy-prompt">Copy the prompt</a></p>
+
+        <p>That makes the folders and the rules file, nothing else. Then feed it. If you do not know how to save something as a file, you do not need to — paste the text or a link into Claude Code and say <em>save this into raw/, then file it</em>. Give it a month before you judge it; the compounding is invisible at first.</p>
+
+        <p>One upgrade is worth doing early: install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>, a free app, and open the folder with it. It draws the links between pages as a live graph, which is the closest thing I have to a picture of my own head. Watching that web thicken is what turns feeding the system from a chore into a habit.</p>
+
+        <p>If you build one, <a href="../?view=contact">write me</a>. I want to see what your graph looks like after a month.</p>
+      </div>
+
+      <div class="view-footer">
+        <span></span>
+        <nav></nav>
+      </div>
+
+    </div>
+
+    <script>
+      // Copy-the-prompt link. Falls back to selecting the block if the
+      // clipboard API is unavailable (e.g. non-secure context).
+      (function () {
+        const link = document.getElementById('copy-prompt');
+        const block = document.getElementById('install-prompt');
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const done = function () {
+            link.textContent = 'Copied';
+            setTimeout(function () { link.textContent = 'Copy the prompt'; }, 2000);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(block.textContent).then(done, function () { selectBlock(); });
+          } else {
+            selectBlock();
+          }
+          function selectBlock() {
+            const range = document.createRange();
+            range.selectNodeContents(block);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        });
+      })();
+    </script>
+
+    <script type="module">
+      // The ingestion cycle, drawn with the Providence morph mechanism:
+      // one point cloud cycling scatter → grid → graph → sphere
+      // (drop → file → connect → compound).
+      import * as THREE from 'three';
+
+      const SIMPLEX = /* glsl */`
+        vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+        vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
+        vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}
+        vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+        float snoise(vec3 v){
+          const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);
+          vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);
+          vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);
+          vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;
+          i=mod289(i);
+          vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+          float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;
+          vec4 j=p-49.0*floor(p*ns.z*ns.z);
+          vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);
+          vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);
+          vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+          vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));
+          vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+          vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+          vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+          p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+          vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;
+          return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+        }
+      `;
+
+      const GA_ANGLE = Math.PI * (3 - Math.sqrt(5)); // golden angle
+      const STAGES = ['01 — drop', '02 — file', '03 — connect', '04 — compound'];
+
+      // Each particle gets an index-matched point on every target shape.
+      function buildShapes(count) {
+        const scatter = new Float32Array(count * 3);
+        const grid    = new Float32Array(count * 3);
+        const graph   = new Float32Array(count * 3);
+        const sphere  = new Float32Array(count * 3);
+        const scales  = new Float32Array(count);
+
+        // Hubs for the graph stage — a handful of dense clusters.
+        const HUBS = 14;
+        const hubs = [];
+        for (let h = 0; h < HUBS; h++) {
+          const y = 1 - (h / (HUBS - 1)) * 2;
+          const rad = Math.sqrt(Math.max(0, 1 - y * y));
+          const th = h * GA_ANGLE * 7.3;
+          hubs.push([Math.cos(th) * rad * 0.72, y * 0.72, Math.sin(th) * rad * 0.72]);
+        }
+
+        const side = Math.ceil(Math.sqrt(count));
+
+        for (let i = 0; i < count; i++) {
+          // scatter — loose cloud of raw material
+          const r = Math.cbrt(Math.random()) * 1.05;
+          const u = Math.random() * 2 - 1;
+          const a = Math.random() * Math.PI * 2;
+          const ur = Math.sqrt(1 - u * u);
+          scatter[i*3] = Math.cos(a) * ur * r;
+          scatter[i*3+1] = u * r;
+          scatter[i*3+2] = Math.sin(a) * ur * r;
+
+          // grid — a flat lattice: pages, order
+          const gx = i % side, gy = Math.floor(i / side);
+          const E = 0.85;
+          grid[i*3]   = (gx / (side - 1) * 2 - 1) * E;
+          grid[i*3+1] = (gy / (side - 1) * 2 - 1) * E;
+          grid[i*3+2] = (Math.random() - 0.5) * 0.04;
+
+          // graph — clusters plus the links between them
+          if (i % 5 < 3) {
+            const hub = hubs[i % HUBS];
+            const S = 0.16;
+            graph[i*3]   = hub[0] + (Math.random() + Math.random() + Math.random() - 1.5) * S;
+            graph[i*3+1] = hub[1] + (Math.random() + Math.random() + Math.random() - 1.5) * S;
+            graph[i*3+2] = hub[2] + (Math.random() + Math.random() + Math.random() - 1.5) * S;
+          } else {
+            const p = hubs[i % HUBS], q = hubs[(i * 7 + 3) % HUBS];
+            const t = Math.random();
+            graph[i*3]   = p[0] + (q[0] - p[0]) * t + (Math.random() - 0.5) * 0.02;
+            graph[i*3+1] = p[1] + (q[1] - p[1]) * t + (Math.random() - 0.5) * 0.02;
+            graph[i*3+2] = p[2] + (q[2] - p[2]) * t + (Math.random() - 0.5) * 0.02;
+          }
+
+          // sphere — the whole brain
+          const sy = 1 - (i / (count - 1)) * 2;
+          const srad = Math.sqrt(Math.max(0, 1 - sy * sy));
+          const sth = i * GA_ANGLE;
+          sphere[i*3] = Math.cos(sth) * srad * 0.9;
+          sphere[i*3+1] = sy * 0.9;
+          sphere[i*3+2] = Math.sin(sth) * srad * 0.9;
+
+          scales[i] = 0.55 + Math.random() * 0.6;
+        }
+        return { scatter, grid, graph, sphere, scales };
+      }
+
+      function smooth(e) { return e * e * (3 - 2 * e); }
+
+      function createMorph(canvas, stageEl) {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const count = 2600;
+        const HOLD = 2.2, MORPH = 1.7, CYC = HOLD + MORPH, SHAPES = 4;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        const PR = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(PR);
+        renderer.setClearColor(0x000000, 0);
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+        camera.position.z = 3.0;
+
+        const S = buildShapes(count);
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(S.scatter, 3));
+        geo.setAttribute('aP0', new THREE.BufferAttribute(S.scatter, 3));
+        geo.setAttribute('aP1', new THREE.BufferAttribute(S.grid, 3));
+        geo.setAttribute('aP2', new THREE.BufferAttribute(S.graph, 3));
+        geo.setAttribute('aP3', new THREE.BufferAttribute(S.sphere, 3));
+        geo.setAttribute('aScale', new THREE.BufferAttribute(S.scales, 1));
+
+        const material = new THREE.ShaderMaterial({
+          transparent: true, depthWrite: false, blending: THREE.NormalBlending,
+          uniforms: {
+            uTime: { value: 0 }, uNoiseOffset: { value: Math.random() * 10 },
+            uSize: { value: 1.15 },
+            uPixelRatio: { value: PR }, uColor: { value: new THREE.Color('#000000') },
+            uW: { value: new THREE.Vector4(1, 0, 0, 0) },
+          },
+          vertexShader: /* glsl */`
+            uniform float uTime, uNoiseOffset, uSize, uPixelRatio;
+            uniform vec4 uW;
+            attribute vec3 aP0, aP1, aP2, aP3;
+            attribute float aScale;
+            ${SIMPLEX}
+            void main() {
+              vec3 pos = aP0*uW.x + aP1*uW.y + aP2*uW.z + aP3*uW.w;
+              vec3 dir = normalize(pos + vec3(0.0001));
+              float t = (uTime + uNoiseOffset) * 0.2;
+              float n = snoise(pos * 1.3 + vec3(0.0, 0.0, t));
+              pos += dir * n * 0.03;
+              vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+              gl_Position = projectionMatrix * mv;
+              gl_PointSize = uSize * aScale * uPixelRatio * (3.4 / -mv.z);
+            }
+          `,
+          fragmentShader: /* glsl */`
+            precision mediump float;
+            uniform vec3 uColor;
+            void main() {
+              vec2 uv = gl_PointCoord - 0.5;
+              if (length(uv) > 0.5) discard;
+              float mask = 1.0 - smoothstep(0.40, 0.5, length(uv));
+              gl_FragColor = vec4(uColor, mask * 0.95);
+            }
+          `,
+        });
+
+        const points = new THREE.Points(geo, material);
+        points.frustumCulled = false;
+        points.rotation.x = -0.12;
+        scene.add(points);
+
+        // Renderer built successfully — reveal the canvas. If the module
+        // failed to load (404, no importmap support), this line never runs
+        // and the canvas stays display:none with the static caption.
+        canvas.style.display = 'block';
+
+        // In reduced-motion mode there is no render loop, so resize/theme
+        // changes must repaint by hand or the canvas goes blank.
+        let onScreen = true;
+        const repaint = () => { if (onScreen) renderer.render(scene, camera); };
+
+        // Pure black-and-white site: particles follow the colour scheme.
+        const dark = window.matchMedia('(prefers-color-scheme: dark)');
+        const setColor = () => {
+          material.uniforms.uColor.value.set(dark.matches ? '#ffffff' : '#000000');
+          if (reduce) repaint();
+        };
+        dark.addEventListener('change', setColor);
+
+        function resize() {
+          const w = canvas.clientWidth || 360, h = canvas.clientHeight || 340;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+
+        new IntersectionObserver((es) => {
+          const wasOn = onScreen;
+          onScreen = es[0].isIntersecting;
+          if (reduce && onScreen && !wasOn) repaint();
+        }, { rootMargin: '200px' }).observe(canvas);
+
+        setColor();
+        resize();
+        new ResizeObserver(() => { resize(); if (reduce) repaint(); }).observe(canvas);
+
+        if (reduce) {
+          // Hold the finished state: the sphere, no motion.
+          material.uniforms.uW.value.set(0, 0, 0, 1);
+          stageEl.textContent = 'drop — file — connect — compound';
+          repaint();
+          return;
+        }
+
+        const clock = new THREE.Clock();
+        const w = new THREE.Vector4();
+        let shownStage = -1;
+        function render() {
+          const dt = clock.getDelta();
+          material.uniforms.uTime.value += dt;
+
+          const t = material.uniforms.uTime.value;
+          const total = ((t % (CYC * SHAPES)) + CYC * SHAPES) % (CYC * SHAPES);
+          const idx = Math.floor(total / CYC);
+          const lt = total - idx * CYC;
+          w.set(0, 0, 0, 0);
+          let active = idx;
+          if (lt < HOLD) {
+            w.setComponent(idx, 1);
+          } else {
+            const e = smooth((lt - HOLD) / MORPH);
+            w.setComponent(idx, 1 - e);
+            w.setComponent((idx + 1) % SHAPES, e);
+            if (e > 0.5) active = (idx + 1) % SHAPES;
+          }
+          material.uniforms.uW.value.copy(w);
+
+          if (active !== shownStage) {
+            shownStage = active;
+            stageEl.textContent = STAGES[active];
+          }
+
+          points.rotation.y += dt * 0.12;
+          if (onScreen) renderer.render(scene, camera);
+          requestAnimationFrame(render);
+        }
+        render();
+      }
+
+      try {
+        createMorph(document.getElementById('brain-morph'), document.getElementById('morph-stage'));
+      } catch (err) {
+        // No WebGL: drop the canvas, keep the caption as a static diagram.
+        document.getElementById('brain-morph').remove();
+        document.getElementById('morph-stage').textContent = 'drop — file — connect — compound';
+      }
+    </script>
+  </body>
+</html>

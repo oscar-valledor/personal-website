@@ -48,6 +48,7 @@
         <a href="#" data-view="books">Books</a>
         <a href="#" data-view="music">Music</a>
         <a href="#" data-view="links">Links</a>
+        <a href="#" data-view="blog">Blog</a>
         <a href="#" data-view="contact">Contact</a>
       </nav>
 
@@ -93,6 +94,15 @@
         </div>
       </div>
 
+      <!-- Blog -->
+      <div id="blog-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Blog">
+        <div class="view-list"></div>
+        <div class="view-footer">
+          <span>First person.</span>
+          <nav><a href="#" class="view-close">Close</a></nav>
+        </div>
+      </div>
+
       <!-- Contact -->
       <div id="contact-view" class="overlay-view" role="dialog" aria-modal="true" tabindex="-1" aria-label="Contact">
         <div class="view-list">
@@ -119,6 +129,7 @@
           <p><span class="shortcut-key">6</span><span class="view-meta"> — Books</span></p>
           <p><span class="shortcut-key">7</span><span class="view-meta"> — Music</span></p>
           <p><span class="shortcut-key">8</span><span class="view-meta"> — Links</span></p>
+          <p><span class="shortcut-key">9</span><span class="view-meta"> — Blog</span></p>
           <p><span class="shortcut-key">C</span><span class="view-meta"> — Contact</span></p>
           <p><span class="shortcut-key">M</span><span class="view-meta"> — Moon</span></p>
           <p><span class="shortcut-key">?</span><span class="view-meta"> — This panel</span></p>
@@ -262,7 +273,7 @@
       books: 'Books', projects: 'Work', essays: 'Essays', now: 'Now',
       contact: 'Contact', about: 'About', music: 'Music', links: 'Links',
       thoughts: 'Thoughts', colophon: 'Colophon', shortcuts: 'Shortcuts',
-      moon: 'Moon', konami: '✦'
+      moon: 'Moon', konami: '✦', blog: 'Blog'
     };
 
     let pendingView = null;
@@ -427,7 +438,7 @@
       const shortcuts = {
         '1': 'now', '2': 'projects', '3': 'about',
         '4': 'essays', '5': 'thoughts', '6': 'books',
-        '7': 'music', '8': 'links',
+        '7': 'music', '8': 'links', '9': 'blog',
         c: 'contact', m: 'moon'
       };
       const view = shortcuts[e.key.toLowerCase()];
@@ -566,6 +577,49 @@
       }
     }
 
+    // — Blog —
+    let blogData = null;
+
+    async function loadBlog() {
+      if (blogData) return blogData;
+      const res = await fetch('blog.json');
+      blogData = await res.json();
+      return blogData;
+    }
+
+    function renderBlog(data) {
+      const list = document.querySelector('#blog-view .view-list');
+      list.innerHTML = '';
+      if (!data.posts.length) {
+        const p = document.createElement('p');
+        p.className = 'view-meta';
+        p.textContent = 'Nothing published yet.';
+        list.appendChild(p);
+        return;
+      }
+      for (const post of data.posts) {
+        const p = document.createElement('p');
+        if (post.slug) {
+          const a = document.createElement('a');
+          a.href = `blog/${post.slug}.html`;
+          a.textContent = post.title;
+          p.appendChild(a);
+        } else {
+          p.appendChild(document.createTextNode(post.title));
+        }
+        const metaParts = [];
+        if (post.date) metaParts.push(post.date);
+        if (post.readingTime) metaParts.push(post.readingTime);
+        if (metaParts.length) {
+          const meta = document.createElement('span');
+          meta.className = 'view-meta';
+          meta.textContent = ` — ${metaParts.join(', ')}`;
+          p.appendChild(meta);
+        }
+        list.appendChild(p);
+      }
+    }
+
     // — Music —
     let musicData = null;
 
@@ -680,6 +734,7 @@
       if (name === 'books') renderBooks(await loadBooks());
       else if (name === 'projects') renderProjects(await loadProjects());
       else if (name === 'essays') renderEssays(await loadEssays());
+      else if (name === 'blog') renderBlog(await loadBlog());
       else if (name === 'moon') renderMoon();
       else if (name === 'music') renderMusic(await loadMusic());
       else if (name === 'thoughts') renderThoughts(await loadThoughts());

@@ -218,7 +218,8 @@ a:focus-visible {
 [data-view="about"] #about-view,
 [data-view="music"] #music-view,
 [data-view="links"] #links-view,
-[data-view="thoughts"] #thoughts-view {
+[data-view="thoughts"] #thoughts-view,
+[data-view="blog"] #blog-view {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

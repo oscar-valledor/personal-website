@@ -102,6 +102,7 @@ The `openView(name)` function acts as a toggle — calling it with the already-a
 | About | Nav / key `3` | Hardcoded HTML | Max-width `50vw` on desktop |
 | Essays | Nav / key `4` | `essays.json` | Curated reads by other authors; links to standalone HTML pages in `essays/` |
 | Thoughts | Nav / key `5` | `thoughts.json` | Numbered, separated by `<hr>` |
+| Blog | Nav / key `9` | `blog.json` | Oscar's own writing; links to standalone HTML pages in `blog/` |
 | Books | Nav / key `6` | `books.json` | Sections: "Currently reading" + read list |
 | Music | Nav / key `7` | `music.json` | Sections: "Playlists" + "Albums" |
 | Links | Nav / key `8` | Hardcoded HTML | — |
@@ -129,6 +130,14 @@ Existing data views: Books, Projects, Essays, Music, Thoughts.
 
 Essays (`essays.json` + `essays/`) are *curated reads by other authors* — Paul Graham, Kyla Scanlon, Douglas Brundage, etc. Each entry has an `author` and a `source` URL; the local copy is for archival + readability. Visual: pure achromatic-serif, text only.
 
+### Blog
+
+Blog (`blog.json` + `blog/`) is *Oscar's own writing*. Entries have no `author`/`source`; the canonical URL is self (not cross-domain like essays). Post pages reuse the essay layout (`style.css` + `essay.css`) plus a few blog-only classes appended to `essay.css` (`.essay-body h2`, `.essay-figure`, `.prompt-block`, `.prompt-actions`).
+
+The copyable install prompt (`.prompt-block`) renders in the system monospace stack (`ui-monospace, …`) at the site's 0.75rem small-text size. This is the only sanctioned non-serif surface — a functional affordance so paste-verbatim machine text reads as machine text — and a system stack, not an external font, so it does not violate the "no external fonts" rule.
+
+**Documented deviation from "no new JS files":** blog posts may embed a WebGL particle animation (the Providence morph mechanism). `blog/three.subset.min.js` is a vendored, tree-shaken Three.js subset (ES module, ~465 KB raw / ~120 KB gzipped) loaded via a per-page `importmap`; the morph code itself is an inline `<script type="module">` in the post. No CDN — CSP stays `script-src 'self' 'unsafe-inline' …`. Only pages that embed the animation load it. Animations must respect `prefers-reduced-motion` (render a static final state), pause rendering off-screen via `IntersectionObserver`, and follow the colour scheme (black particles in light mode, white in dark).
+
 ### Staggered animations
 
 When a view opens, `staggerView(name)` assigns `transitionDelay` of `i * 50ms` to each child of `.view-list`. When closing, delays are reset to ensure instant fade-out.
@@ -149,6 +158,12 @@ present.js              — Live clock, geolocation, reverse geocode, moon phase
 
 essays/                 — Curated essays by other authors (standalone HTML pages)
   └── cities-and-ambition.html, etc.
+
+blog/                   — Oscar's own posts (standalone HTML pages)
+  ├── the-second-brain.html
+  └── three.subset.min.js — vendored Three.js subset for the morph animation
+
+blog.json               — Blog index: title, slug, date, readingTime
 
 books.json              — Goodreads sync data (auto-updated daily)
 projects.json           — Work/projects list (manual edits)
@@ -277,6 +292,7 @@ Every view has a `.view-footer` with a short poetic label on the left and a "Clo
 | About | "Barcelona, 1994." |
 | Essays | "Long form." |
 | Thoughts | "Short form." |
+| Blog | "First person." |
 | Books | Count of books read |
 | Music | "Worth listening to." |
 | Links | "Worth bookmarking." |
@@ -407,6 +423,16 @@ Heading elements (`h1`, `h2`) exist for document outline and SEO only — style.
      <priority>0.8</priority>
    </url>
    ```
+
+### Add a blog post
+
+Same as an essay, with these differences:
+
+1. File lives in `blog/your-slug.html`; back-link is `← Blog` → `../?view=blog`.
+2. `<link rel="canonical">` points at the post's own URL (`https://oscarvalledor.com/blog/your-slug.html`) — never cross-domain.
+3. Entry goes in `blog.json` (`title`, `slug`, `date` like "July 2026", `readingTime`); no `author`, no `source`.
+4. Add the URL to `sitemap.xml` (`yearly` / `0.8`).
+5. Optional morph animation: copy the `<script type="importmap">` + inline `<script type="module">` pattern from `blog/the-second-brain.html`; it needs `blog/three.subset.min.js` (already vendored).
 
 ### Add a new thought
 
