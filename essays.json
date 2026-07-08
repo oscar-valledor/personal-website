@@ -1,6 +1,14 @@
 {
   "posts": [
     {
+      "title": "From Hierarchy to Intelligence",
+      "slug": "from-hierarchy-to-intelligence",
+      "author": "Jack Dorsey and Roelof Botha",
+      "date": "March 2026",
+      "readingTime": "12 min",
+      "source": "https://block.xyz/inside/from-hierarchy-to-intelligence"
+    },
+    {
       "title": "The Most Valuable Commodity in the World is Friction",
       "slug": "the-most-valuable-commodity-is-friction",
       "author": "Kyla Scanlon",
