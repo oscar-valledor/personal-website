@@ -7,7 +7,7 @@ function fetchUrl(url) {
   return new Promise((resolve, reject) => {
     // Goodreads returns 403 to requests without a User-Agent
     const options = { headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)' } };
-    https.get(url, options, (res) => {
+    const req = https.get(url, options, (res) => {
       if (res.statusCode !== 200) {
         reject(new Error(`HTTP ${res.statusCode} for ${url}`));
         return;
@@ -17,18 +17,20 @@ function fetchUrl(url) {
       res.on('end', () => resolve(data));
       res.on('error', reject);
     }).on('error', reject);
+    req.setTimeout(30000, () => req.destroy(new Error(`Timeout for ${url}`)));
   });
 }
 
 function decodeEntities(str) {
+  // &amp; must decode last or doubly-encoded entities ("&amp;lt;") over-decode
   return str
-    .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n))
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, n) => String.fromCharCode(parseInt(n, 16)));
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&amp;/g, '&');
 }
 
 function getTag(xml, tag) {
@@ -67,11 +69,22 @@ async function main() {
     fetchUrl(`https://www.goodreads.com/review/list_rss/${USER_ID}?shelf=currently-reading`),
   ]);
 
+  // A 200 with a non-RSS body (rate-limit interstitial, captcha, schema
+  // change) parses to zero items and would wipe good data — refuse to write.
+  if (!readXml.includes('<rss')) {
+    throw new Error('Read-shelf response is not RSS — refusing to overwrite books.json');
+  }
+
   const books = {
-    lastUpdated: new Date().toISOString().split('T')[0],
     currentlyReading: parseItems(currentlyReadingXml),
     read: parseItems(readXml),
   };
+
+  let previous = { read: [] };
+  try { previous = JSON.parse(fs.readFileSync('books.json', 'utf8')); } catch {}
+  if (books.read.length === 0 && (previous.read || []).length > 0) {
+    throw new Error(`Parsed 0 read books while books.json holds ${previous.read.length} — refusing to overwrite`);
+  }
 
   fs.writeFileSync('books.json', JSON.stringify(books, null, 2));
   console.log(`Done. ${books.currentlyReading.length} currently reading, ${books.read.length} read.`);

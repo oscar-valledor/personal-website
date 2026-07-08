@@ -109,10 +109,10 @@ def extract_text_from_note_data(data):
                 break
         return ""
     except Exception:
-        try:
-            return data.decode('utf-8', errors='ignore').strip()
-        except Exception:
-            return ""
+        # No raw-bytes fallback: decoding gzipped protobuf with
+        # errors='ignore' produces binary garbage that would publish
+        # verbatim. An empty string trips the abort guard in get_thoughts.
+        return ""
 
 
 def get_thoughts():
@@ -171,6 +171,12 @@ def get_thoughts():
         # Extract text
         text = extract_text_from_note_data(body_data)
         if not text:
+            if body_data:
+                # The note has content we failed to parse (Apple may have
+                # changed the protobuf layout). Abort rather than publish
+                # an empty list over good data.
+                print(f"Error: could not extract text from note '{NOTE_TITLE}' — aborting.", file=sys.stderr)
+                sys.exit(1)
             print(f"Warning: Note '{NOTE_TITLE}' appears empty.", file=sys.stderr)
             return []
 
