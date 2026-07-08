@@ -17,6 +17,8 @@
 .essay-title {
   font-style: italic;
   margin-bottom: 0.4rem;
+  font-size: inherit;
+  font-weight: normal;
 }
 
 /* Essay body */
