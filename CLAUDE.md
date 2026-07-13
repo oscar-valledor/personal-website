@@ -102,7 +102,7 @@ The `openView(name)` function acts as a toggle — calling it with the already-a
 | About | Nav / key `3` | Hardcoded HTML | Max-width `50vw` on desktop |
 | Essays | Nav / key `4` | `essays.json` | Curated reads by other authors; links to standalone HTML pages in `essays/` |
 | Thoughts | Nav / key `5` | `thoughts.json` | Numbered, separated by `<hr>` |
-| Blog | Nav / key `9` | `blog.json` | Oscar's own writing; links to standalone HTML pages in `blog/` |
+| Blog | _hidden_ | `blog.json` | Oscar's own writing; links to standalone HTML pages in `blog/`. **Currently hidden** — see Blog section below |
 | Books | Nav / key `6` | `books.json` | Sections: "Currently reading" + read list |
 | Music | Nav / key `7` | `music.json` | Sections: "Playlists" + "Albums" |
 | Links | Nav / key `8` | Hardcoded HTML | — |
@@ -133,6 +133,8 @@ Essays (`essays.json` + `essays/`) are *curated reads by other authors* — Paul
 ### Blog
 
 Blog (`blog.json` + `blog/`) is *Oscar's own writing*. Entries have no `author`/`source`; the canonical URL is self (not cross-domain like essays). Post pages reuse the essay layout (`style.css` + `essay.css`) plus a few blog-only classes appended to `essay.css` (`.essay-body h2`, `.essay-figure`, `.prompt-block`, `.prompt-actions`).
+
+**Currently hidden from the live site.** The view, render functions (`loadBlog`/`renderBlog`), overlay HTML, CSS, `blog.json`, and the post files all remain in place — the Blog is only *unlinked*, so re-enabling is fast. To re-publish: (1) restore the `<a data-view="blog">Blog</a>` nav link in `index.html`, (2) re-add `blog: 'Blog'` to `viewTitleMap`, (3) re-add `'9': 'blog'` to the `shortcuts` object and the `9 — Blog` row in the shortcuts panel, (4) re-add the post's `<url>` to `sitemap.xml`, (5) remove the `<meta name="robots" content="noindex, nofollow">` from each post in `blog/`.
 
 The copyable install prompt (`.prompt-block`) renders in the system monospace stack (`ui-monospace, …`) at the site's 0.75rem small-text size. This is the only sanctioned non-serif surface — a functional affordance so paste-verbatim machine text reads as machine text — and a system stack, not an external font, so it does not violate the "no external fonts" rule.
 

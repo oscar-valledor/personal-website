@@ -7,11 +7,6 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://oscarvalledor.com/blog/the-second-brain.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://oscarvalledor.com/essays/the-most-valuable-commodity-is-friction.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
