@@ -1,5 +1,18 @@
 {
-  "currentlyReading": [],
+  "currentlyReading": [
+    {
+      "title": "A Confederacy of Dunces",
+      "author": "John Kennedy Toole",
+      "url": "https://www.goodreads.com/book/show/310612",
+      "rating": 0
+    },
+    {
+      "title": "Tomorrow, and Tomorrow, and Tomorrow",
+      "author": "Gabrielle Zevin",
+      "url": "https://www.goodreads.com/book/show/58784475",
+      "rating": 0
+    }
+  ],
   "read": [
     {
       "title": "A Brief History of Time",
