@@ -1,0 +1,16 @@
+---
+name: personal-website-csp
+description: personal-website's CSP meta tag is duplicated by hand across 8 HTML pages — check for stale leftover tags whenever it changes
+metadata:
+  type: project
+---
+
+The CSP `<meta http-equiv="Content-Security-Policy">` tag is not shared via any include mechanism — it is pasted verbatim into every HTML page (`index.html`, `404.html`, `blog/the-second-brain.html`, and all 5 files under `essays/`). CLAUDE.md documents this explicitly: "copy it verbatim from `index.html`."
+
+**Why:** During the 2026-09-15 security-hardening pass (removing `'unsafe-inline'` from `script-src` after externalizing all inline `<script>` blocks), the new CSP tag was inserted correctly into all 8 pages, but the *old* CSP tag was only actually deleted in `index.html`. The other 7 pages (`404.html` + all essay pages + the blog post) ended up with two CSP meta tags: the new strict one and the old permissive one still sitting a few lines below it.
+
+Multiple CSP meta tags are enforced as an intersection *per directive*, not just "strictest wins" in the sense of ignoring the rest — each directive's allow-list is intersected independently. Working it out for the 7 duplicated pages: `script-src` intersects to `{'self', googletagmanager.com}` either way, so the inline-script hardening goal does hold there. But `img-src` and `connect-src` on the *new* tag deliberately widen to add `google-analytics.com` (img-src) and `googletagmanager.com` / `api.open-meteo.com` / `nominatim.openstreetmap.org` (connect-src) — none of which are in the old tag. The intersection silently drops all of those on the 7 duplicated pages, meaning the widened policy is not actually in effect anywhere except `index.html`. This is not "dead weight," it's a live narrowing of the policy relative to what the new tag intends — worth calling out precisely rather than waving off as harmless, even though it happens to degrade gracefully (GA calls/beacons may get silently blocked; no page currently loads `present.js`/nominatim except `index.html`, so no visible feature breaks yet).
+
+**How to apply:** Any time a diff touches the CSP tag, run `grep -c "Content-Security-Policy" <file>` across all 8 HTML pages (not just the ones with a visible diff hunk) to confirm each page ends up with exactly one occurrence — 2 means a stale tag is still narrowing the policy by intersection. Also check `grep -l present.js *.html essays/*.html blog/*.html` since that script is the one thing on the site that hits an external API (`nominatim`) beyond GA; if it ever gets loaded on a page whose CSP is stale/duplicated, that call would break. A clean headless-Chromium pass does not catch this class of bug — CSP violations only fire when a blocked resource is actually requested, and headless runs typically don't grant geolocation or fire real GA beacons, so the duplicated/narrowed pages can look violation-free while still being wrong.
+
+Also relevant: `projects.json` is fetched client-side and is fully public — `hidden: true` only hides an entry from the rendered Work view, it does not remove it from the JSON response. To actually keep a project private, the entry must be deleted from `projects.json`, not just flagged hidden. CLAUDE.md's "Add a project" recipe was corrected to say this on 2026-09-15.

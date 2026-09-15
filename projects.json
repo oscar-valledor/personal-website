@@ -13,28 +13,6 @@
       "stage": "bare",
       "description": "",
       "url": "https://projectlobster.com/"
-    },
-    {
-      "title": "Spathios",
-      "status": "seed investor — exited to Barlon Capital",
-      "stage": "bare",
-      "description": "",
-      "url": "https://spathios.com/",
-      "hidden": true
-    },
-    {
-      "title": "mid/night 00.00",
-      "status": "seed investor",
-      "stage": "seedling",
-      "description": "",
-      "url": "https://midnightcosmetics.co/",
-      "hidden": true
-    },
-    {
-      "title": "Querida",
-      "status": "under development",
-      "url": "https://querida.si/",
-      "hidden": true
     }
   ]
 }

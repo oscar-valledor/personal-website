@@ -61,7 +61,11 @@ Then open `http://localhost:8081`. There is no build step, no bundler, no framew
 
 ### Core principle
 
-Everything is a single-page app rendered from one `index.html`. No frameworks, no build tools, no dependencies in production. The only external runtime resources are Google Analytics and the OpenStreetMap Nominatim API (reverse geocoding). Open-Meteo (weather) is currently disabled and removed from the CSP; re-add the connect-src entry when re-enabling it.
+Everything is a single-page app rendered from one `index.html`. No frameworks, no build tools, no dependencies in production. The only external runtime resources are Google Analytics and the OpenStreetMap Nominatim API (reverse geocoding). Open-Meteo (weather) is currently disabled in `present.js` but stays allowed in the CSP so it can be re-enabled without a policy change.
+
+### Content Security Policy
+
+Every HTML page carries the same `<meta http-equiv="Content-Security-Policy">` tag (copy it verbatim from `index.html`). `script-src` is `'self'` plus Google Tag Manager — **no `'unsafe-inline'`, so inline `<script>` blocks do not run**. All JS lives in files: `ga.js` (analytics bootstrap, shared by every page), `app.js` (the SPA), `present.js`, and per-post modules under `blog/`. `style-src` keeps `'unsafe-inline'` because a few elements use `style=""` attributes. `frame-ancestors` cannot be set from a meta tag, so clickjacking protection is not available on GitHub Pages. Adding a new third-party host means extending the matching directive in every page's tag.
 
 ### Page structure
 
@@ -138,7 +142,7 @@ Blog (`blog.json` + `blog/`) is *Oscar's own writing*. Entries have no `author`/
 
 The copyable install prompt (`.prompt-block`) renders in the system monospace stack (`ui-monospace, …`) at the site's 0.75rem small-text size. This is the only sanctioned non-serif surface — a functional affordance so paste-verbatim machine text reads as machine text — and a system stack, not an external font, so it does not violate the "no external fonts" rule.
 
-**Documented deviation from "no new JS files":** blog posts may embed a WebGL particle animation (the Providence morph mechanism). `blog/three.subset.min.js` is a vendored, tree-shaken Three.js subset (ES module, ~465 KB raw / ~120 KB gzipped) loaded via a per-page `importmap`; the morph code itself is an inline `<script type="module">` in the post. No CDN — CSP stays `script-src 'self' 'unsafe-inline' …`. Only pages that embed the animation load it. Animations must respect `prefers-reduced-motion` (render a static final state), pause rendering off-screen via `IntersectionObserver`, and follow the colour scheme (black particles in light mode, white in dark).
+**Documented deviation from "no new JS files":** blog posts may embed a WebGL particle animation (the Providence morph mechanism). `blog/three.subset.min.js` is a vendored, tree-shaken Three.js subset (ES module, ~465 KB raw / ~120 KB gzipped) imported directly by the post's module file (`blog/the-second-brain.js`, loaded via `<script type="module" src>`). No CDN and no inline scripts — the CSP forbids them. Only pages that embed the animation load it. Animations must respect `prefers-reduced-motion` (render a static final state), pause rendering off-screen via `IntersectionObserver`, and follow the colour scheme (black particles in light mode, white in dark).
 
 ### Staggered animations
 
@@ -153,7 +157,9 @@ When a view opens, `staggerView(name)` assigns `transitionDelay` of `i * 50ms` t
 ## File map
 
 ```
-index.html              — Single-page app: all views, all inline JS
+index.html              — Single-page app: all views (markup only, no inline JS)
+app.js                  — The SPA logic: view system, JSON loaders, renderers, shortcuts
+ga.js                   — Google Analytics bootstrap, loaded by every page as /ga.js
 style.css               — All styles: layout, views, dark mode, mobile
 essay.css               — Long-form layout for essay pages
 present.js              — Live clock, geolocation, reverse geocode, moon phase
@@ -163,6 +169,7 @@ essays/                 — Curated essays by other authors (standalone HTML pag
 
 blog/                   — Oscar's own posts (standalone HTML pages)
   ├── the-second-brain.html
+  ├── the-second-brain.js   — copy-prompt button + WebGL morph module for that post
   └── three.subset.min.js — vendored Three.js subset for the morph animation
 
 blog.json               — Blog index: title, slug, date, readingTime
@@ -349,7 +356,7 @@ Heading elements (`h1`, `h2`) exist for document outline and SEO only — style.
    <a href="#" data-view="photos">Photos</a>
    ```
 
-5. **Register in the view title map** (in `<script>` inside `index.html`):
+5. **Register in the view title map** (in `app.js`):
    ```js
    const viewTitleMap = {
      // ... existing entries
@@ -398,8 +405,8 @@ Heading elements (`h1`, `h2`) exist for document outline and SEO only — style.
    - `<meta name="description">` ("Title, by Author — an archived copy of the original essay.")
    - Cross-domain `<link rel="canonical">` pointing at the original source URL (curated essays are archived copies — the canonical belongs to the author)
    - Links to `../style.css` and `../essay.css` (relative paths)
-   - CSP meta tag (copy from existing)
-   - Google Analytics snippet (copy from existing)
+   - CSP meta tag (copy verbatim from `index.html`)
+   - Google Analytics: the async gtag `<script src>` plus `<script src="/ga.js"></script>` — never an inline snippet
    - `.top` with site link and `← Essays` back-link to `../?view=essays`
    - `.essay-header` with `.essay-title` as an `<h1>` (renders as body text — heading styles are reset) and `.view-meta` (date/author)
    - `.essay-body` with `<p>` tags
@@ -434,7 +441,7 @@ Same as an essay, with these differences:
 2. `<link rel="canonical">` points at the post's own URL (`https://oscarvalledor.com/blog/your-slug.html`) — never cross-domain.
 3. Entry goes in `blog.json` (`title`, `slug`, `date` like "July 2026", `readingTime`); no `author`, no `source`.
 4. Add the URL to `sitemap.xml` (`yearly` / `0.8`).
-5. Optional morph animation: copy the `<script type="importmap">` + inline `<script type="module">` pattern from `blog/the-second-brain.html`; it needs `blog/three.subset.min.js` (already vendored).
+5. Optional morph animation: copy the `<script type="module" src="…">` pattern from `blog/the-second-brain.html` into a sibling `.js` file that imports `./three.subset.min.js` (already vendored). No inline scripts.
 
 ### Add a new thought
 
@@ -455,7 +462,7 @@ Edit `projects.json`. Fields:
   "description": "",                    // optional longer description
   "url": "https://...",                 // optional link
   "stage": "tree",                      // not currently used in rendering
-  "hidden": false                       // set true to hide from Work view
+  "hidden": false                       // hides from the Work view only — the JSON is public, so remove the entry instead if it must stay private
 }
 ```
 
@@ -537,7 +544,7 @@ The site is intentionally simple but designed to grow through repetition of patt
 - New content types should follow the JSON + lazy-load + render pattern
 - New views should use the same overlay mechanism (never a new page unless it's an essay)
 - All styling goes in `style.css` (never inline styles, never a new CSS file except `essay.css`)
-- All JS stays inline in `index.html` (no new JS files except `present.js`)
+- No inline JS anywhere (the CSP forbids it); page logic lives in `app.js`, `ga.js`, `present.js`, and per-post modules under `blog/`
 - Keep the data format flat: arrays of objects with simple string fields
 - If a view is currently hardcoded HTML and you want it data-driven, create a JSON file and follow the pattern — but only when it's worth it (don't over-engineer for 8 links)
 
